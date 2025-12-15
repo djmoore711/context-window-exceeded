@@ -2,6 +2,7 @@
 const baseURL = useRuntimeConfig().app.baseURL
 const portraitSrc = computed(() => `${baseURL}assets/portrait.png`)
 const signatureSrc = computed(() => `${baseURL}assets/DJ_Moore_signature_transparent_tight.png`)
+const year = new Date().getFullYear()
 
 useHead({
   title: 'DJ Moore | About',
@@ -17,7 +18,7 @@ useHead({
 <template>
   <a class="skip-link" href="#main">Skip to content</a>
 
-  <header class="hero-surface">
+  <header id="top" class="hero-surface">
     <nav class="topbar" aria-label="Top">
       <div class="topbar__left">
         <span class="name">DJ Moore</span>
@@ -257,7 +258,23 @@ useHead({
   </main>
 
   <footer class="site-footer">
-    <p class="muted">About Me</p>
+    <div class="site-footer__inner">
+      <div class="site-footer__brand">
+        <p class="site-footer__name">DJ Moore</p>
+        <p class="site-footer__fineprint muted">© {{ year }} DJ Moore. All rights reserved.</p>
+      </div>
+
+      <div class="site-footer__nav" aria-label="Footer">
+        <a class="cta" href="mailto:myself@darrellmoore.me">Email</a>
+        <div class="site-footer__links">
+          <a href="https://www.linkedin.com/in/mooredarrell/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+          <a href="https://github.com/djmoore711" target="_blank" rel="noopener noreferrer">GitHub</a>
+          <a href="https://github.com/djmoore711/context-window-exceeded" target="_blank" rel="noopener noreferrer">Source</a>
+          <a href="#top">Back to Top</a>
+        </div>
+        <p class="site-footer__timezone muted">America/Chicago</p>
+      </div>
+    </div>
   </footer>
 </template>
 
@@ -336,10 +353,10 @@ a:focus-visible{outline:2px solid var(--fg); outline-offset:3px;}
   align-items:center;
   justify-content:space-between;
   gap:var(--space-4);
-  padding:var(--space-5) var(--space-4) var(--space-4);
+  padding:var(--space-5) var(--space-4) var(--space-3);
 }
 
-.name{font-weight:650; letter-spacing:.02em; font-size:var(--fs-3);}
+.name{font-weight:650; letter-spacing:.02em; font-size:5rem; line-height:1;}
 
 .topbar__right{
   display:flex;
@@ -354,6 +371,7 @@ a:focus-visible{outline:2px solid var(--fg); outline-offset:3px;}
   border-radius:999px;
   border:1px solid transparent;
   background:transparent;
+  transition: background-color .18s ease, color .18s ease, border-color .18s ease;
 }
 
 .topbar__right a:not(.cta):hover{
@@ -382,7 +400,7 @@ a:focus-visible{outline:2px solid var(--fg); outline-offset:3px;}
 .hero{
   max-width:var(--max);
   margin:0 auto;
-  padding:var(--space-6) var(--space-4) var(--space-7);
+  padding:var(--space-5) var(--space-4) var(--space-7);
   border-bottom:1px solid var(--border);
 }
 
@@ -600,7 +618,52 @@ a:focus-visible{outline:2px solid var(--fg); outline-offset:3px;}
 .site-footer{
   max-width:var(--max);
   margin:0 auto;
-  padding:0 var(--space-4) var(--space-7);
+  padding:var(--space-6) var(--space-4) var(--space-7);
+  border-top:1px solid var(--border);
+}
+
+.site-footer__inner{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:var(--space-4);
+  flex-wrap:wrap;
+}
+
+.site-footer__brand{
+  display:flex;
+  flex-direction:column;
+  gap:var(--space-1);
+}
+
+.site-footer__name{
+  margin:0;
+  font-weight:650;
+  letter-spacing:.02em;
+}
+
+.site-footer__nav{
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  gap:var(--space-3);
+}
+
+.site-footer__links{
+  display:flex;
+  align-items:center;
+  gap:var(--space-3);
+  flex-wrap:wrap;
+}
+
+.site-footer__fineprint{
+  margin:0;
+  font-size:var(--fs-0);
+}
+
+.site-footer__timezone{
+  margin:0;
+  font-size:var(--fs-0);
 }
 
 .visually-hidden{
