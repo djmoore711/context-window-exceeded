@@ -34,11 +34,11 @@ useHead({
       <div class="hero-grid">
         <div class="hero-inner">
           <p class="kicker">Security Engineering</p>
-          <h1 id="hero-title">I build security systems you can measure.</h1>
+          <h1 id="hero-title">I build security systems that reduce risk and prove it.</h1>
           <p class="lede">
             I’m a GCP and AWS platform security engineer. I like messy environments, unclear ownership, and noisy telemetry,
             because that’s where real security work lives. I build the pipelines, controls, and tooling that turn “we think we’re okay”
-            into “we can prove it,” without turning engineering into a paperwork factory.
+            into "we can prove it," without making engineering feel like a paper mill.
           </p>
           <ul class="chips" aria-label="Proof points">
             <li>AWS and GCP</li>
@@ -67,20 +67,19 @@ useHead({
       </div>
       <div class="rail__content">
         <p>
-          My default approach is simple: pick the few security problems that actually move risk, build systems that reduce the problem
+          I prioritize a few key security problems that actually move risk, build systems that reduce the problem
           permanently, and then make it easy for other teams to do the right thing without needing security in the room.
           I work close to the seams where things break: identity, logging, CI/CD, policy, and the “who owns this?” problem.
         </p>
         <br />
         <p>
           I’m not interested in security theater. I like controls you can verify, telemetry you can trust, and workflows that don’t depend
-          on heroics. When I ship something, I want it to keep working after launch: documented, automated where it should be, and measurable
-          enough that leadership and engineers can both understand the outcome.
+          on heroics. When I ship something, I want it to keep working after launch: documented, automated where it should be, and measurable enough that both leadership and engineers understand the outcome.
         </p>
         <br />
         <p>
           I’ve done this in regulated environments where PCI and audit requirements are real, and in places where privacy and legal constraints
-          matter just as much as detection. I’ve also lived the “small team” reality: you can’t scale by doing more manual work, so you scale by
+          matter just as much as detection. I’ve also lived the small team reality where you can’t scale by doing more manual work, so you scale by
           building better systems and teaching others how to use them.
         </p>
       </div>
@@ -104,20 +103,20 @@ useHead({
             <ul>
               <li>Cloud identity design across GCP and AWS (roles, groups, approvals, governance)</li>
               <li>Network segmentation and scoped environments for compliance and risk reduction</li>
-              <li>Pragmatic threat modeling for platform changes and sensitive code paths</li>
+              <li>Threat modeling for platform changes and sensitive code paths</li>
             </ul>
           </article>
 
           <article class="capability" role="listitem">
             <h3>Detection, DFIR, and Logging</h3>
             <p>
-              I’m big on signal. I like clean pipelines, stable schemas, and detections that someone will still trust at 2 a.m.
+              I care about signal. I like clean pipelines, stable schemas, and detections that someone will still trust at 2 a.m.
               I build triage patterns, tuning workflows, and playbooks so response stays calm and repeatable.
             </p>
             <ul>
               <li>SIEM migrations and operations (Chronicle, Splunk), plus log routing and normalization</li>
               <li>Detection tuning that reduces noise without throwing away real signal</li>
-              <li>IR workflows: triage clarity, enrichment, and consistent responder steps</li>
+              <li>Incident response workflows: clear triage, enrichment, and consistent steps for responders</li>
             </ul>
           </article>
 
@@ -195,7 +194,7 @@ useHead({
         </article>
 
         <article class="case" aria-labelledby="case-2">
-          <h3 id="case-2">GCP IAM privilege reduction with governance, not “cleanup”</h3>
+          <h3 id="case-2">GCP IAM privilege reduction with governance and cleanup</h3>
           <dl>
             <dt>Problem</dt>
             <dd>
@@ -210,7 +209,7 @@ useHead({
             </dd>
             <dt>Result</dt>
             <dd>
-              Reduced unused permissions by ~40–50% across major groups while keeping teams productive, shrinking blast radius and replacing
+              Reduced unused permissions by 50% across major groups while keeping teams productive, shrinking blast radius and replacing
               console drift with reviewable, self-documenting infrastructure-as-code.
             </dd>
             <dt>Tools</dt>
@@ -219,7 +218,7 @@ useHead({
         </article>
 
         <article class="case" aria-labelledby="case-3">
-          <h3 id="case-3">SIEM migration + alert signal improvement</h3>
+          <h3 id="case-3">SIEM migration and strong signal to noise improvement</h3>
           <dl>
             <dt>Problem</dt>
             <dd>
@@ -234,7 +233,7 @@ useHead({
             </dd>
             <dt>Result</dt>
             <dd>
-              Modernized SIEM operations by reducing “care and feeding” and improving reliability. Tuned a single detection stream down by ~89k events,
+              Modernized SIEM operations by reducing care and feeding and improving reliability. Tuned a single detection stream down by ~89k events,
               preserving trust and preventing responders from blanket-ignoring a whole alert category.
             </dd>
             <dt>Tools</dt>
@@ -243,7 +242,7 @@ useHead({
         </article>
 
         <article class="case" aria-labelledby="case-4">
-          <h3 id="case-4">Splunk consolidation + Entra ID SSO (repeatable build)</h3>
+          <h3 id="case-4">Splunk consolidation and Entra ID SSO (repeatable build)</h3>
           <dl>
             <dt>Problem</dt>
             <dd>
