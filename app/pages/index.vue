@@ -1,11 +1,15 @@
 <script setup lang="ts">
 const baseURL = useRuntimeConfig().app.baseURL
 const portraitSrc = computed(() => `${baseURL}assets/portrait.png`)
+const signatureSrc = computed(() => `${baseURL}assets/DJ_Moore_signature_transparent_tight.png`)
 
 useHead({
   title: 'DJ Moore | About',
   meta: [
     { name: 'description', content: 'Monochrome, minimalist About Me landing page.' },
+  ],
+  link: [
+    { rel: 'icon', type: 'image/x-icon', href: `${baseURL}favicon.ico` },
   ],
 })
 </script>
@@ -21,14 +25,14 @@ useHead({
       <div class="topbar__right">
         <a href="https://www.linkedin.com/in/mooredarrell/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
         <a href="https://github.com/djmoore711" target="_blank" rel="noopener noreferrer">GitHub</a>
-        <a class="cta" href="mailto:myself@darrellmoore.me">Email me</a>
+        <a class="cta" href="mailto:myself@darrellmoore.me">Email Me</a>
       </div>
     </nav>
 
     <section class="hero" aria-labelledby="hero-title">
       <div class="hero-grid">
         <div class="hero-inner">
-          <p class="kicker">Security engineering</p>
+          <p class="kicker">Security Engineering</p>
           <h1 id="hero-title">I build security systems you can measure.</h1>
           <p class="lede">
             I’m a GCP and AWS platform security engineer. I like messy environments, unclear ownership, and noisy telemetry,
@@ -37,15 +41,16 @@ useHead({
           </p>
           <ul class="chips" aria-label="Proof points">
             <li>AWS and GCP</li>
-            <li>Platform security and IAM</li>
-            <li>Detection and DFIR enablement</li>
-            <li>Security automation</li>
-            <li>Compliance reality: SOC 2 and PCI</li>
-            <li>Insider threat and investigations</li>
+            <li>Platform Security and IAM</li>
+            <li>Detection and DFIR Enablement</li>
+            <li>Security Automation</li>
+            <li>Compliance Reality: SOC 2 and PCI</li>
+            <li>Insider Threat and Investigations</li>
           </ul>
         </div>
         <figure class="portrait">
-          <img :src="portraitSrc" alt="Portrait of DJ Moore" loading="lazy" decoding="async" width="640" height="640" />
+          <img class="portrait-photo" :src="portraitSrc" alt="Portrait of DJ Moore" loading="lazy" decoding="async" width="640" height="640" />
+          <img class="signature" :src="signatureSrc" alt="Signature of DJ Moore" loading="lazy" decoding="async" width="320" height="120" />
         </figure>
       </div>
     </section>
@@ -55,7 +60,7 @@ useHead({
     <section class="rail" aria-labelledby="how-title">
       <div class="rail__label">
         <div class="sticky">
-          <p class="rail-kicker">How I work</p>
+          <p class="rail-kicker">How I Work</p>
           <h2 id="how-title" class="rail-title">About</h2>
         </div>
       </div>
@@ -129,7 +134,7 @@ useHead({
           </article>
 
           <article class="capability" role="listitem">
-            <h3>Insider threat and investigations</h3>
+            <h3>Insider Threat and Investigations</h3>
             <p>
               I’ve built and operated insider threat capabilities in regulated environments, balancing security, privacy, and legal constraints.
               The work is less about “monitor everything” and more about scoped, justified triggers that create defensible evidence when something is off.
@@ -390,7 +395,6 @@ a:focus-visible{outline:2px solid var(--fg); outline-offset:3px;}
 
 .kicker{
   margin:0 0 var(--space-3);
-  text-transform:uppercase;
   letter-spacing:.18em;
   font-size:var(--fs-0);
   color:var(--muted);
@@ -429,7 +433,6 @@ a:focus-visible{outline:2px solid var(--fg); outline-offset:3px;}
 
 .rail-kicker{
   margin:0 0 var(--space-2);
-  text-transform:uppercase;
   letter-spacing:.18em;
   font-size:var(--fs-0);
   color:var(--muted);
@@ -456,7 +459,7 @@ a:focus-visible{outline:2px solid var(--fg); outline-offset:3px;}
   max-width:16rem;
 }
 
-.portrait img{
+.portrait-photo{
   display:block;
   width:100%;
   height:auto;
@@ -464,6 +467,20 @@ a:focus-visible{outline:2px solid var(--fg); outline-offset:3px;}
   border:1px solid var(--border);
   box-shadow:0 18px 40px var(--shadow);
   background:var(--card);
+}
+
+.signature{
+  display:block;
+  width:100%;
+  max-width:16rem;
+  height:auto;
+  margin-top:var(--space-3);
+  margin-inline:auto;
+  border:none;
+  border-radius:0;
+  box-shadow:none;
+  background:transparent;
+  padding:0;
 }
 
 /* Hero chips */
