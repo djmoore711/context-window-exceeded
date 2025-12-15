@@ -150,6 +150,18 @@ useHead({
       </div>
     </section>
 
+    <section class="rail" aria-labelledby="github-title">
+      <div class="rail__label">
+        <div class="sticky">
+          <p class="rail-kicker">GitHub</p>
+          <h2 id="github-title" class="rail-title">GitHub Projects</h2>
+        </div>
+      </div>
+      <div class="rail__content">
+        <GithubRepoShowcase />
+      </div>
+    </section>
+
     <section class="rail" aria-labelledby="work-title">
       <div class="rail__label">
         <div class="sticky">
