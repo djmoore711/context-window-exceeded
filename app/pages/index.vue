@@ -213,6 +213,7 @@ useHead({
 </template>
 
 <style>
+/* Theme tokens */
 :root{
   --bg:#0b0b0c;
   --fg:#f4f4f4;
@@ -244,6 +245,7 @@ useHead({
   --font:ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
 }
 
+/* Base element styles */
 *{box-sizing:border-box;}
 html{scroll-behavior:smooth; color-scheme:dark;}
 body{
@@ -258,6 +260,7 @@ a{color:inherit; text-decoration-thickness:.08em; text-underline-offset:.18em;}
 a:hover{text-decoration-thickness:.14em;}
 a:focus-visible{outline:2px solid var(--fg); outline-offset:3px;}
 
+/* Accessibility */
 .skip-link{
   position:absolute;
   left:-999px;
@@ -270,11 +273,13 @@ a:focus-visible{outline:2px solid var(--fg); outline-offset:3px;}
 }
 .skip-link:focus{left:var(--space-4);}
 
+/* Hero surface (header wrapper) */
 .hero-surface{
   background:radial-gradient(1200px 900px at 18% -10%, rgba(255,255,255,.10), transparent 60%), var(--bg);
   border-bottom:none;
 }
 
+/* Top navigation */
 .topbar{
   max-width:var(--max);
   margin:0 auto;
@@ -305,6 +310,7 @@ a:focus-visible{outline:2px solid var(--fg); outline-offset:3px;}
 }
 .cta:hover{background:rgba(255,255,255,.88);}
 
+/* Hero content */
 .hero{
   max-width:var(--max);
   margin:0 auto;
@@ -335,6 +341,7 @@ a:focus-visible{outline:2px solid var(--fg); outline-offset:3px;}
   max-width:22ch;
 }
 
+/* Main layout + section rails */
 .main{
   max-width:var(--max);
   margin:0 auto;
@@ -380,6 +387,7 @@ a:focus-visible{outline:2px solid var(--fg); outline-offset:3px;}
   min-width:0;
 }
 
+/* Hero portrait */
 .portrait{
   margin:var(--space-4) 0;
   max-width:16rem;
@@ -395,6 +403,7 @@ a:focus-visible{outline:2px solid var(--fg); outline-offset:3px;}
   background:var(--card);
 }
 
+/* Hero chips */
 .lede{
   margin:0;
   color:var(--muted);
@@ -420,6 +429,7 @@ a:focus-visible{outline:2px solid var(--fg); outline-offset:3px;}
   color:var(--muted);
 }
 
+/* Capabilities cards */
 .rail__content p{
   margin:0;
   color:var(--muted);
@@ -448,6 +458,7 @@ a:focus-visible{outline:2px solid var(--fg); outline-offset:3px;}
 .capability ul{margin:0; padding-left:1.1rem; color:var(--muted);}
 .capability li{margin:0 0 var(--space-2);}
 
+/* Selected work (cases) */
 .case{
   margin-top:var(--space-4);
   padding-top:var(--space-5);
@@ -485,6 +496,7 @@ a:focus-visible{outline:2px solid var(--fg); outline-offset:3px;}
   .case dd{margin:0;}
 }
 
+/* Writing (notes list) */
 .notes{list-style:none; padding:0; margin:var(--space-4) 0 0;}
 
 .notes li{
@@ -499,8 +511,10 @@ a:focus-visible{outline:2px solid var(--fg); outline-offset:3px;}
 
 .notes p{margin:var(--space-2) 0 0; color:var(--muted);}
 
+/* Contact */
 .contact p{margin:0 0 var(--space-3);}
 
+/* Footer + utilities */
 .muted{color:var(--muted);}
 
 .site-footer{
@@ -521,6 +535,7 @@ a:focus-visible{outline:2px solid var(--fg); outline-offset:3px;}
   border:0;
 }
 
+/* Responsive layout */
 @media (min-width: 980px){
   .rail{grid-template-columns:18rem 1fr; gap:var(--space-7);}
   .sticky{position:sticky; top:var(--space-6);}
