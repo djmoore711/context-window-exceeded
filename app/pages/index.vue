@@ -90,7 +90,7 @@ useHead({
       <div class="rail__label">
         <div class="sticky">
           <p class="rail-kicker">Capabilities</p>
-          <h2 id="what-title" class="rail-title">What I do</h2>
+          <h2 id="what-title" class="rail-title">What I Do</h2>
         </div>
       </div>
       <div class="rail__content">
@@ -154,7 +154,7 @@ useHead({
       <div class="rail__label">
         <div class="sticky">
           <p class="rail-kicker">Proof</p>
-          <h2 id="work-title" class="rail-title">Selected work</h2>
+          <h2 id="work-title" class="rail-title">Selected Work</h2>
         </div>
       </div>
       <div class="rail__content">
@@ -262,6 +262,7 @@ useHead({
       <div class="site-footer__brand">
         <p class="site-footer__name">DJ Moore</p>
         <p class="site-footer__fineprint muted">© {{ year }} DJ Moore. All rights reserved.</p>
+        <p class="site-footer__timezone muted">America/Chicago</p>
       </div>
 
       <div class="site-footer__nav" aria-label="Footer">
@@ -272,7 +273,6 @@ useHead({
           <a href="https://github.com/djmoore711/context-window-exceeded" target="_blank" rel="noopener noreferrer">Source</a>
           <a href="#top">Back to Top</a>
         </div>
-        <p class="site-footer__timezone muted">America/Chicago</p>
       </div>
     </div>
   </footer>
