@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { queryCollection } from '#imports'
+
 const route = useRoute()
 
 const { data: page } = await useAsyncData('page-' + route.path, () => {
