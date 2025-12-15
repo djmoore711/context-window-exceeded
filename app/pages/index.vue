@@ -19,8 +19,8 @@ useHead({
         <span class="name">DJ Moore</span>
       </div>
       <div class="topbar__right">
-        <a href="https://www.linkedin.com/in/mooredarrell/">LinkedIn</a>
-        <a href="https://github.com/djmoore711">GitHub</a>
+        <a href="https://www.linkedin.com/in/mooredarrell/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        <a href="https://github.com/djmoore711" target="_blank" rel="noopener noreferrer">GitHub</a>
         <a class="cta" href="mailto:myself@darrellmoore.me">Email me</a>
       </div>
     </nav>
@@ -30,11 +30,18 @@ useHead({
         <div class="hero-inner">
           <p class="kicker">Security engineering</p>
           <h1 id="hero-title">I build security systems you can measure.</h1>
-          <p class="lede">I help engineering teams ship secure cloud platforms with clear controls, high-signal detections, and automation that reduces operational drag.</p>
+          <p class="lede">
+            I’m a GCP and AWS platform security engineer. I like messy environments, unclear ownership, and noisy telemetry,
+            because that’s where real security work lives. I build the pipelines, controls, and tooling that turn “we think we’re okay”
+            into “we can prove it,” without turning engineering into a paperwork factory.
+          </p>
           <ul class="chips" aria-label="Proof points">
             <li>AWS and GCP</li>
-            <li>Detection engineering</li>
+            <li>Platform security and IAM</li>
+            <li>Detection and DFIR enablement</li>
             <li>Security automation</li>
+            <li>Compliance reality: SOC 2 and PCI</li>
+            <li>Insider threat and investigations</li>
           </ul>
         </div>
         <figure class="portrait">
@@ -53,7 +60,23 @@ useHead({
         </div>
       </div>
       <div class="rail__content">
-        <p>I focus on building security foundations that scale with modern cloud platforms. I work close to the seams: identity, logging, policy, and automation that keeps them consistent. I prefer small, testable changes that improve signal-to-noise and shorten the path from finding to fixing. I write runbooks, dashboards, and guardrails so teams can move fast with fewer surprises. I value clear ownership, measurable outcomes, and systems that keep working after launch.</p>
+        <p>
+          My default approach is simple: pick the few security problems that actually move risk, build systems that reduce the problem
+          permanently, and then make it easy for other teams to do the right thing without needing security in the room.
+          I work close to the seams where things break: identity, logging, CI/CD, policy, and the “who owns this?” problem.
+        </p>
+        <br />
+        <p>
+          I’m not interested in security theater. I like controls you can verify, telemetry you can trust, and workflows that don’t depend
+          on heroics. When I ship something, I want it to keep working after launch: documented, automated where it should be, and measurable
+          enough that leadership and engineers can both understand the outcome.
+        </p>
+        <br />
+        <p>
+          I’ve done this in regulated environments where PCI and audit requirements are real, and in places where privacy and legal constraints
+          matter just as much as detection. I’ve also lived the “small team” reality: you can’t scale by doing more manual work, so you scale by
+          building better systems and teaching others how to use them.
+        </p>
       </div>
     </section>
 
@@ -68,31 +91,53 @@ useHead({
         <div class="capabilities" role="list">
           <article class="capability" role="listitem">
             <h3>Platform Security</h3>
-            <p>Design identity, network, and policy controls that are easy to operate and hard to bypass.</p>
+            <p>
+              I design the control plane for cloud environments: identity, segmentation, and guardrails that are easy to operate and hard to bypass.
+              The goal is consistent access patterns, smaller blast radius, and fewer “special cases” that turn into future incidents.
+            </p>
             <ul>
-              <li>Threat modeling for platform changes</li>
-              <li>Guardrails via policy-as-code</li>
-              <li>Service hardening checklists</li>
+              <li>Cloud identity design across GCP and AWS (roles, groups, approvals, governance)</li>
+              <li>Network segmentation and scoped environments for compliance and risk reduction</li>
+              <li>Pragmatic threat modeling for platform changes and sensitive code paths</li>
             </ul>
           </article>
 
           <article class="capability" role="listitem">
-            <h3>Detection and Logging</h3>
-            <p>Increase coverage and reduce alert fatigue by making telemetry consistent and queries maintainable.</p>
+            <h3>Detection, DFIR, and Logging</h3>
+            <p>
+              I’m big on signal. I like clean pipelines, stable schemas, and detections that someone will still trust at 2 a.m.
+              I build triage patterns, tuning workflows, and playbooks so response stays calm and repeatable.
+            </p>
             <ul>
-              <li>Log pipelines and normalization</li>
-              <li>Detection content lifecycle and review</li>
-              <li>Triage playbooks and tuning</li>
+              <li>SIEM migrations and operations (Chronicle, Splunk), plus log routing and normalization</li>
+              <li>Detection tuning that reduces noise without throwing away real signal</li>
+              <li>IR workflows: triage clarity, enrichment, and consistent responder steps</li>
             </ul>
           </article>
 
           <article class="capability" role="listitem">
             <h3>Automation and IaC</h3>
-            <p>Automate repeatable security work and reduce drift with code-first workflows.</p>
+            <p>
+              If something is repeatable, I want it coded. I use automation to reduce drift, reduce manual toil, and keep the “right way”
+              easy to adopt. I’m comfortable writing the glue code that turns tools into a system.
+            </p>
             <ul>
-              <li>Terraform modules and standards</li>
-              <li>CI checks and drift detection</li>
-              <li>Self-service security tooling</li>
+              <li>Terraform modules and standards for identity and platform security</li>
+              <li>Python and Bash automation for ETL, workflows, and repeatable operations</li>
+              <li>Self-service patterns that move security from “ticket queue” to “review and governance”</li>
+            </ul>
+          </article>
+
+          <article class="capability" role="listitem">
+            <h3>Insider threat and investigations</h3>
+            <p>
+              I’ve built and operated insider threat capabilities in regulated environments, balancing security, privacy, and legal constraints.
+              The work is less about “monitor everything” and more about scoped, justified triggers that create defensible evidence when something is off.
+            </p>
+            <ul>
+              <li>Partnering with legal, privacy, GRC, and policy teams to define what’s allowed and why</li>
+              <li>Investigation workflows that focus on anomaly detection, evidence collection, and least-privilege access</li>
+              <li>Controls around sensitive records and high-profile access patterns in healthcare environments</li>
             </ul>
           </article>
         </div>
@@ -108,101 +153,100 @@ useHead({
       </div>
       <div class="rail__content">
         <article class="case" aria-labelledby="case-1">
-          <h3 id="case-1">Unified cloud audit logging</h3>
+          <h3 id="case-1">Vulnerability management program built from scratch (PCI focus)</h3>
           <dl>
             <dt>Problem</dt>
-            <dd>Telemetry was fragmented across accounts and teams, and investigations started with manual data pulls.</dd>
+            <dd>
+              We started with visibility shock: millions of vulnerability findings across the environment and no scalable way to assign ownership,
+              track remediation, or produce clean evidence for PCI. Early efforts relied on manual spreadsheets and ad-hoc follow-ups.
+            </dd>
             <dt>What I built or changed</dt>
-            <dd>Standardized ingestion and normalization, defined retention and access patterns, and shipped dashboards for investigation workflows.</dd>
+            <dd>
+              Sequestered PCI resources into a segmented environment to shrink scope and focus effort. Built a BigQuery-backed vulnerability
+              inventory by pulling Prisma Cloud data via Python ETL and combining it with repository ownership mapping. Layered in GitHub security
+              signals (SAST and dependency findings) and built a dashboard so teams could self-serve: “what is mine, where did it come from, and how do I fix it?”
+            </dd>
             <dt>Result</dt>
-            <dd>Reduced investigation startup time from N hours to N minutes and increased detection coverage by X%.</dd>
+            <dd>
+              Took PCI vulnerability state from “chaos and manual tracking” to a single pane of glass with ownership and evidence, driving PCI
+              vulnerabilities (low through critical) down to zero in under six months. Reduced audit thrash and made remediation a repeatable workflow.
+            </dd>
             <dt>Tools</dt>
-            <dd class="tools">Cloud audit logs, SIEM, Terraform</dd>
+            <dd class="tools">GCP, Prisma Cloud, BigQuery, Python, GitHub Advanced Security, ClickUp</dd>
           </dl>
         </article>
 
         <article class="case" aria-labelledby="case-2">
-          <h3 id="case-2">Identity guardrails with policy-as-code</h3>
+          <h3 id="case-2">GCP IAM privilege reduction with governance, not “cleanup”</h3>
           <dl>
             <dt>Problem</dt>
-            <dd>Privilege patterns varied by team, and high-risk permissions accumulated over time.</dd>
+            <dd>
+              Migration to GCP left behind overly broad, inconsistent permission models: primitive roles, custom roles with huge permission sets,
+              and console-created access patterns that caused drift and privilege creep.
+            </dd>
             <dt>What I built or changed</dt>
-            <dd>Introduced reusable IAM modules, preventive policies, and CI checks to block unsafe changes before deploy.</dd>
+            <dd>
+              Used Security Command Center IAM analysis to identify permissions actually used over time, then rebuilt access through Terraform-managed
+              groups and bindings. Introduced a governance model where access changes flowed through PR review, and aligned identity workflows across
+              Okta, Google Workspace, and GCP so access didn’t require constant manual moves.
+            </dd>
             <dt>Result</dt>
-            <dd>Reduced high-risk permissions by X% and shortened approval cycles by N days.</dd>
+            <dd>
+              Reduced unused permissions by ~40–50% across major groups while keeping teams productive, shrinking blast radius and replacing
+              console drift with reviewable, self-documenting infrastructure-as-code.
+            </dd>
             <dt>Tools</dt>
-            <dd class="tools">Terraform, OPA, CI pipelines</dd>
+            <dd class="tools">GCP IAM, Security Command Center, Terraform, Okta, Google Workspace, GitHub PR workflows</dd>
           </dl>
         </article>
 
         <article class="case" aria-labelledby="case-3">
-          <h3 id="case-3">Detection content lifecycle</h3>
+          <h3 id="case-3">SIEM migration + alert signal improvement</h3>
           <dl>
             <dt>Problem</dt>
-            <dd>Alerts were noisy and stale, ownership was unclear, and tuning was inconsistent.</dd>
+            <dd>
+              A legacy SIEM created operational drag and noisy alert streams. Separately, a single SCC alert type was generating tens of thousands
+              of events that responders were close to ignoring entirely.
+            </dd>
             <dt>What I built or changed</dt>
-            <dd>Created a versioned detection repo with review gates, promotion stages, and simple tests for query logic.</dd>
+            <dd>
+              Migrated from AlienVault to Chronicle, moving core integrations (forwarders, Pub/Sub sources, webhooks) and adding new coverage where it mattered.
+              For the high-noise SCC alert, partnered with engineering to isolate the exact benign pattern and implemented targeted suppression logic
+              that removed the noise without losing real signal.
+            </dd>
             <dt>Result</dt>
-            <dd>Reduced false positives by X% and improved mean time to acknowledge by N minutes.</dd>
+            <dd>
+              Modernized SIEM operations by reducing “care and feeding” and improving reliability. Tuned a single detection stream down by ~89k events,
+              preserving trust and preventing responders from blanket-ignoring a whole alert category.
+            </dd>
             <dt>Tools</dt>
-            <dd class="tools">Detection rules, Python, SIEM</dd>
+            <dd class="tools">Chronicle, SCC, Pub/Sub, forwarders, detection tuning, cloud integrations</dd>
           </dl>
         </article>
 
         <article class="case" aria-labelledby="case-4">
-          <h3 id="case-4">Incident response automation</h3>
+          <h3 id="case-4">Splunk consolidation + Entra ID SSO (repeatable build)</h3>
           <dl>
             <dt>Problem</dt>
-            <dd>Enrichment and containment steps were manual, slow, and varied between responders.</dd>
+            <dd>
+              Splunk was fragmented across accounts with monolithic servers, inconsistent access controls, and user sprawl. Admin work was not scalable,
+              and offboarding required touching too many systems.
+            </dd>
             <dt>What I built or changed</dt>
-            <dd>Automated enrichment, ticket creation, and common containment actions with audit trails and safe defaults.</dd>
+            <dd>
+              Re-architected Splunk into components (indexers, search head, heavy forwarders) and replaced monoliths with a centralized model.
+              Built CloudFormation templates for repeatable server foundations and wrote Bash automation to migrate configs and data, including
+              validation checks. Implemented Entra ID SSO via SAML to consolidate identity and role mapping.
+            </dd>
             <dt>Result</dt>
-            <dd>Reduced time to contain from N hours to N minutes and improved consistency across responders.</dd>
+            <dd>
+              Reduced account sprawl and made access management centralized and sane. Automation cut hours of migration babysitting per server,
+              improved repeatability, and enabled scalable growth across accounts.
+            </dd>
             <dt>Tools</dt>
-            <dd class="tools">Serverless functions, APIs, SOAR</dd>
+            <dd class="tools">AWS, Splunk, CloudFormation, Bash, Entra ID (SAML), SSM/systemd workflows</dd>
           </dl>
         </article>
-      </div>
-    </section>
-
-    <section class="rail" aria-labelledby="notes-title">
-      <div class="rail__label">
-        <div class="sticky">
-          <p class="rail-kicker">Notes</p>
-          <h2 id="notes-title" class="rail-title">Writing</h2>
-        </div>
-      </div>
-      <div class="rail__content">
-        <ul class="notes">
-          <li>
-            <a href="https://example.com/notes/detection-tuning">Field notes: detection tuning</a>
-            <p>A checklist for reducing noise without losing coverage.</p>
-          </li>
-          <li>
-            <a href="https://example.com/notes/policy-as-code">Policy-as-code patterns</a>
-            <p>Guardrails that teams can adopt incrementally.</p>
-          </li>
-          <li>
-            <a href="https://example.com/notes/security-automation">Automation that respects humans</a>
-            <p>Where to automate, and where to keep a human in the loop.</p>
-          </li>
-        </ul>
-      </div>
-    </section>
-
-    <section class="rail" aria-labelledby="contact-title">
-      <div class="rail__label">
-        <div class="sticky">
-          <p class="rail-kicker">Contact</p>
-          <h2 id="contact-title" class="rail-title">Reach out</h2>
-        </div>
-      </div>
-      <div class="rail__content">
-        <div class="contact">
-          <p><a href="mailto:myself@darrellmoore.me">myself@darrellmoore.me</a></p>
-          <p class="muted">America/Chicago</p>
-          <p>Best way to reach me: email with a short summary and any relevant constraints.</p>
-        </div>
       </div>
     </section>
   </main>
@@ -298,6 +342,25 @@ a:focus-visible{outline:2px solid var(--fg); outline-offset:3px;}
   gap:var(--space-3);
   flex-wrap:wrap;
   justify-content:flex-end;
+}
+
+.topbar__right a:not(.cta){
+  padding:calc(var(--space-2) + 1px) var(--space-3);
+  border-radius:999px;
+  border:1px solid transparent;
+  background:transparent;
+}
+
+.topbar__right a:not(.cta):hover{
+  background:var(--fg);
+  color:var(--bg);
+  border-color:var(--fg);
+}
+
+.topbar__right a:not(.cta):focus-visible{
+  background:var(--fg);
+  color:var(--bg);
+  border-color:var(--fg);
 }
 
 .cta{
@@ -541,5 +604,6 @@ a:focus-visible{outline:2px solid var(--fg); outline-offset:3px;}
   .sticky{position:sticky; top:var(--space-6);}
   .portrait{max-width:14rem; margin:0 0 var(--space-4);}
   .hero-grid{grid-template-columns:1fr auto;}
+  .hero h1{max-width:none;}
 }
 </style>
