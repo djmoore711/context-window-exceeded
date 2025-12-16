@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { computed, useRuntimeConfig, useHead } from '#imports'
+
 const baseURL = useRuntimeConfig().app.baseURL
 const portraitSrc = computed(() => `${baseURL}assets/portrait.png`)
 const signatureSrc = computed(() => `${baseURL}assets/DJ_Moore_signature_transparent_tight.png`)
@@ -334,6 +336,7 @@ body{
 }
 
 a{color:inherit; text-decoration-thickness:.08em; text-underline-offset:.18em;}
+a:visited{color:inherit;}
 a:hover{text-decoration-thickness:.14em;}
 a:focus-visible{outline:2px solid var(--fg); outline-offset:3px;}
 
@@ -441,7 +444,7 @@ a:focus-visible{outline:2px solid var(--fg); outline-offset:3px;}
 .main{
   max-width:var(--max);
   margin:0 auto;
-  padding:var(--space-6) var(--space-4) var(--space-8);
+  padding:var(--space-6) var(--space-4) var(--space-7);
 }
 
 .rail{
@@ -453,6 +456,8 @@ a:focus-visible{outline:2px solid var(--fg); outline-offset:3px;}
 }
 
 .rail:first-child{border-top:none; padding-top:var(--space-6);}
+
+.rail:last-child{padding-bottom:var(--space-4);}
 
 .rail__label{min-width:0;}
 
@@ -574,6 +579,11 @@ a:focus-visible{outline:2px solid var(--fg); outline-offset:3px;}
   border-top:1px solid var(--border);
 }
 
+.case:first-of-type{
+  padding-top:0;
+  border-top:none;
+}
+
 .case h3{margin:0 0 var(--space-4); font-size:var(--fs-2); letter-spacing:-.01em; color:var(--fg);}
 
 .case dl{
@@ -629,7 +639,7 @@ a:focus-visible{outline:2px solid var(--fg); outline-offset:3px;}
 .site-footer{
   max-width:var(--max);
   margin:0 auto;
-  padding:var(--space-6) var(--space-4) var(--space-7);
+  padding:var(--space-3) var(--space-4) var(--space-4);
   border-top:1px solid var(--border);
 }
 
