@@ -9,7 +9,7 @@ export default defineNuxtConfig({
   },
   compatibilityDate: '2024-04-03',
   app: {
-    baseURL: '/context-window-exceeded/', // This must match your GitHub repository name exactly
+    baseURL: process.env.NUXT_APP_BASE_URL || '/',
     buildAssetsDir: 'assets', // Helps keeps your build folder clean
   }
 })
