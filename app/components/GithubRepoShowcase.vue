@@ -35,7 +35,7 @@ const repos = computed<Repo[]>(() => [
   },
   {
     name: 'oraclecloud-portainer-free-tier-terraform',
-    description: 'Terraform setup for OCI Portainer MCP infra',
+    description: 'Terraform setup for OCI Portainer for containerization.',
     url: 'https://github.com/djmoore711/oraclecloud-portainer-free-tier-terraform',
     stars: 0,
     forks: 0,
