@@ -2,8 +2,8 @@
 import { computed, useRuntimeConfig, useHead } from '#imports'
 
 const baseURL = useRuntimeConfig().app.baseURL
-const portraitSrc = computed(() => `${baseURL}assets/portrait.png`)
-const signatureSrc = computed(() => `${baseURL}assets/DJ_Moore_signature_transparent_tight.png`)
+const portraitSrc = '/images/portrait.png'
+const signatureSrc = '/images/DJ_Moore_signature_transparent_tight.png'
 const year = new Date().getFullYear()
 
 useHead({

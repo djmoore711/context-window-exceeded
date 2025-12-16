@@ -1,24 +1,21 @@
-# Welcome to Nuxt Content Starter
+# About This Portfolio
 
-This is the main page displaying Markdown located at [content/index.md](https://github.com/nuxt/starter/blob/content/content/index.md).
+Welcome to my personal portfolio website. This site showcases my work in security engineering, platform security, and automation.
 
-Move to [about](/about) page.
+## Navigate
 
-## Manage your Contents
+- [About Me](/) - Main portfolio page with detailed information
+- [Projects](https://github.com/djmoore711) - View my GitHub repositories
 
-Create new pages or modify the existing ones in `content/` directory.
+## Technology Stack
 
-## Query & Render Pages
+This portfolio is built with:
+- **Framework**: Nuxt 4
+- **Language**: TypeScript
+- **Styling**: Custom CSS with CSS-in-Vue
+- **Deployment**: GitHub Pages
+- **Content**: Nuxt Content for Markdown support
 
-You can find an example of querying contents and rendering them in a [catch-all page](https://github.com/nuxt/starter/blob/content/app/pages/%5B...slug%5D.vue)
+## Contact
 
-## Integrate Vue Component
-
-::alert{color="green"}
-The current [alert](https://github.com/nuxt/starter/blob/content/app/components/Alert.vue) and the [counter](https://github.com/nuxt/starter/blob/content/app/components/Counter.vue) below are `Vue` components integrated into the Markdown.
-::
-
-::counter
-::
-
-Checkout out the [documentation](https://content.nuxt.com/docs/getting-started) to learn more.
+Feel free to reach out via email: myself@darrellmoore.me
