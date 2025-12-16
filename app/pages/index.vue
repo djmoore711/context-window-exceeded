@@ -196,7 +196,7 @@ useHead({
         </article>
 
         <article class="case" aria-labelledby="case-2">
-          <h3 id="case-2">GCP IAM privilege reduction with governance and cleanup</h3>
+          <h3 id="case-2">GCP IAM Privilege Reduction With Governance and Cleanup</h3>
           <dl>
             <dt>Problem</dt>
             <dd>
@@ -220,7 +220,7 @@ useHead({
         </article>
 
         <article class="case" aria-labelledby="case-3">
-          <h3 id="case-3">SIEM migration and strong signal to noise improvement</h3>
+          <h3 id="case-3">SIEM Migration and Strong Signal to Noise Improvement</h3>
           <dl>
             <dt>Problem</dt>
             <dd>
@@ -244,7 +244,7 @@ useHead({
         </article>
 
         <article class="case" aria-labelledby="case-4">
-          <h3 id="case-4">Splunk consolidation and Entra ID SSO (repeatable build)</h3>
+          <h3 id="case-4">Splunk Consolidation and Entra ID SSO</h3>
           <dl>
             <dt>Problem</dt>
             <dd>
