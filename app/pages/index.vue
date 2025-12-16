@@ -2,8 +2,8 @@
 import { computed, useRuntimeConfig, useHead } from '#imports'
 
 const baseURL = useRuntimeConfig().app.baseURL
-const portraitSrc = '/images/portrait.png'
-const signatureSrc = '/images/DJ_Moore_signature_transparent_tight.png'
+const portraitSrc = `${baseURL}images/portrait.png`
+const signatureSrc = `${baseURL}images/DJ_Moore_signature_transparent_tight.png`
 const year = new Date().getFullYear()
 
 useHead({
@@ -28,7 +28,7 @@ useHead({
       <div class="topbar__right">
         <a href="https://www.linkedin.com/in/mooredarrell/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
         <a href="https://github.com/djmoore711" target="_blank" rel="noopener noreferrer">GitHub</a>
-        <a class="cta" href="mailto:myself@darrellmoore.me">Email Me</a>
+        <a class="cta" href="mailto:owner@darrellmoore.me">Email Me</a>
       </div>
     </nav>
 
@@ -279,7 +279,7 @@ useHead({
       </div>
 
       <div class="site-footer__nav" aria-label="Footer">
-        <a class="cta" href="mailto:myself@darrellmoore.me">Email</a>
+        <a class="cta" href="mailto:owner@darrellmoore.me">Email</a>
         <div class="site-footer__links">
           <a href="https://www.linkedin.com/in/mooredarrell/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
           <a href="https://github.com/djmoore711" target="_blank" rel="noopener noreferrer">GitHub</a>

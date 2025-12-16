@@ -18,4 +18,4 @@ This portfolio is built with:
 
 ## Contact
 
-Feel free to reach out via email: myself@darrellmoore.me
+Feel free to reach out via email: owner@darrellmoore.me

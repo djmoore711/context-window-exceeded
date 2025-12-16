@@ -167,6 +167,6 @@ Theme colors are defined in CSS variables:
 
 ## 📧 Contact
 
-- Email: myself@darrellmoore.me
+- Email: owner@darrellmoore.me
 - LinkedIn: https://www.linkedin.com/in/mooredarrell/
 - GitHub: https://github.com/djmoore711
