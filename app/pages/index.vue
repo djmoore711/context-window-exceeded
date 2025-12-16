@@ -172,7 +172,7 @@ useHead({
       </div>
       <div class="rail__content">
         <article class="case" aria-labelledby="case-1">
-          <h3 id="case-1">Vulnerability management program built from scratch (PCI focus)</h3>
+          <h3 id="case-1">Vulnerability Management Program Built From Scratch</h3>
           <dl>
             <dt>Problem</dt>
             <dd>

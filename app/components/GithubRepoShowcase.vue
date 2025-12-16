@@ -56,9 +56,6 @@ function formatNumber(value: number): string {
       <article v-for="repo in repos" :key="repo.url" class="card" role="listitem">
         <header class="card__header">
           <h4 class="card__name">{{ repo.name }}</h4>
-          <span class="card__badge" aria-label="Primary language">
-            {{ repo.language }}
-          </span>
         </header>
 
         <p class="card__description">{{ repo.description }}</p>
@@ -167,16 +164,6 @@ function formatNumber(value: number): string {
   font-weight:700;
   color:rgba(255,255,255,.92);
   letter-spacing:-.01em;
-}
-
-.card__badge{
-  flex:0 0 auto;
-  font-size:.85rem;
-  color:rgba(255,255,255,.78);
-  border:1px solid rgba(255,255,255,.16);
-  padding:.25rem .6rem;
-  border-radius:999px;
-  background:rgba(255,255,255,.06);
 }
 
 .card__description{
