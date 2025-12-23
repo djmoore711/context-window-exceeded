@@ -110,7 +110,7 @@ useHead({
         <nav class="blog-post__navigation" aria-label="Post navigation">
           <div class="nav-links">
             <div v-if="previousPost && previousPost._path" class="nav-link nav-link--prev">
-              <NuxtLink :to="baseURL + previousPost._path">
+              <NuxtLink :to="previousPost._path.startsWith('/') ? baseURL.slice(0, -1) + previousPost._path : baseURL + previousPost._path">
                 <span class="nav-label">← Previous</span>
                 <span class="nav-title">{{ previousPost.title }}</span>
               </NuxtLink>
@@ -121,7 +121,7 @@ useHead({
             </div>
             
             <div v-if="nextPost && nextPost._path" class="nav-link nav-link--next">
-              <NuxtLink :to="baseURL + nextPost._path">
+              <NuxtLink :to="nextPost._path.startsWith('/') ? baseURL.slice(0, -1) + nextPost._path : baseURL + nextPost._path">
                 <span class="nav-label">Next →</span>
                 <span class="nav-title">{{ nextPost.title }}</span>
               </NuxtLink>
