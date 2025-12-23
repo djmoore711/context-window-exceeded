@@ -65,7 +65,7 @@ useHead({
     
     <template #hero-actions>
       <div class="hero-actions">
-        <a href="/" class="button">← Back to About</a>
+        <NuxtLink to="/" class="button">← Back to About</NuxtLink>
       </div>
     </template>
 
@@ -94,7 +94,7 @@ useHead({
             <div class="blog-card__content">
               <header class="blog-card__header">
                 <h3 class="blog-card__title">
-                  <a :href="post._path.startsWith('/') ? post._path : baseURL + post._path">{{ post.title }}</a>
+                  <NuxtLink :to="post._path.startsWith('/') ? post._path : baseURL + post._path">{{ post.title }}</NuxtLink>
                 </h3>
                 <time :datetime="post.date" class="blog-card__date">
                   {{ post.formattedDate }}
@@ -104,9 +104,9 @@ useHead({
               <p class="blog-card__description">{{ post.description }}</p>
               
               <footer class="blog-card__footer">
-                <a :href="post._path.startsWith('/') ? post._path : baseURL + post._path" class="blog-card__link">
+                <NuxtLink :to="post._path.startsWith('/') ? post._path : baseURL + post._path" class="blog-card__link">
                   Read more →
-                </a>
+                </NuxtLink>
               </footer>
             </div>
           </article>
