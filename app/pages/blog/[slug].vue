@@ -17,9 +17,12 @@ if (!post.value) {
 }
 
 const formattedDate = computed(() => {
-  if (!post.value || !(post.value as any).date && !(post.value as any).meta?.date) return ''
+  if (!post.value || (!(post.value as any).date && !(post.value as any).meta?.date)) return ''
   const postDate = (post.value as any).date || (post.value as any).meta?.date
-  return new Date(postDate).toLocaleDateString('en-US', {
+  const [year, month, day] = (postDate as string).split('-').map(Number)
+  if (!year || !month || !day) return ''
+  const localDate = new Date(year, month - 1, day)
+  return localDate.toLocaleDateString('en-US', {
     year: 'numeric',
     month: 'long',
     day: 'numeric'
