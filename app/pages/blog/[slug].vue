@@ -1,6 +1,23 @@
 <script setup lang="ts">
 import { computed, useRuntimeConfig, useHead } from '#imports'
 
+// TypeScript interfaces for type safety
+interface BlogPostMeta {
+  date?: string
+  description?: string
+  title?: string
+}
+
+interface BlogPost {
+  _path: string
+  title?: string
+  description?: string
+  date?: string
+  meta?: BlogPostMeta
+  cover?: string
+  [key: string]: any // Allow additional properties for ContentRenderer
+}
+
 const route = useRoute()
 const baseURL = useRuntimeConfig().app.baseURL
 
@@ -16,10 +33,15 @@ if (!post.value) {
   throw createError({ statusCode: 404, statusMessage: 'Blog post not found', fatal: true })
 }
 
+// Type assertion to our BlogPost interface
+const blogPost = post.value as unknown as BlogPost
+const blogPosts = allPosts.value as unknown as BlogPost[]
+
 const formattedDate = computed(() => {
-  if (!post.value || (!(post.value as any).date && !(post.value as any).meta?.date)) return ''
-  const postDate = (post.value as any).date || (post.value as any).meta?.date
-  const [year, month, day] = (postDate as string).split('-').map(Number)
+  if (!blogPost || (!blogPost.date && !blogPost.meta?.date)) return ''
+  const postDate = blogPost.date || blogPost.meta?.date
+  if (!postDate) return ''
+  const [year, month, day] = postDate.split('-').map(Number)
   if (!year || !month || !day) return ''
   const localDate = new Date(year, month - 1, day)
   return localDate.toLocaleDateString('en-US', {
@@ -29,41 +51,36 @@ const formattedDate = computed(() => {
   })
 })
 
-const currentIndex = computed(() => {
-  if (!allPosts.value || !post.value) return -1
-  return (allPosts.value as any[]).findIndex((p: any) => p._path === (post.value as any)._path)
-})
-
+// Sort posts by date in descending order (newest first)
+// Memoized to avoid re-sorting on every computation
 const sortedPosts = computed(() => {
-  if (!allPosts.value) return []
-  const posts = allPosts.value as any[]
-  return posts.sort((a: any, b: any) => {
+  if (!blogPosts) return []
+  // Create a copy only when allPosts changes to avoid unnecessary operations
+  const posts = [...blogPosts]
+  return posts.sort((a: BlogPost, b: BlogPost) => {
     const dateA = a.date || a.meta?.date || ''
     const dateB = b.date || b.meta?.date || ''
     return dateB.localeCompare(dateA) // Sort newest first (descending)
   })
 })
 
-const previousPost = computed(() => {
-  if (currentIndex.value < 0 || !sortedPosts.value) return null
-  const posts = sortedPosts.value
-  const currentSortedIndex = posts.findIndex((p: any) => p._path === (post.value as any)._path)
-  if (currentSortedIndex < posts.length - 1) {
-    const prevPost = posts[currentSortedIndex + 1]
-    return prevPost?._path ? prevPost : null
-  }
-  return null
+const currentIndex = computed(() => {
+  if (!sortedPosts.value || !blogPost || !blogPost._path) return -1
+  return sortedPosts.value.findIndex((p: BlogPost) => p._path === blogPost._path)
 })
 
+// Note: Since posts are sorted newest first, "previous" means newer post (higher in list)
+const previousPost = computed(() => {
+  const idx = currentIndex.value
+  if (idx <= 0 || !sortedPosts.value) return null
+  return sortedPosts.value[idx - 1] || null
+})
+
+// Note: Since posts are sorted newest first, "next" means older post (lower in list)
 const nextPost = computed(() => {
-  if (currentIndex.value <= 0 || !sortedPosts.value) return null
-  const posts = sortedPosts.value
-  const currentSortedIndex = posts.findIndex((p: any) => p._path === (post.value as any)._path)
-  if (currentSortedIndex > 0) {
-    const nextPost = posts[currentSortedIndex - 1]
-    return nextPost?._path ? nextPost : null
-  }
-  return null
+  const idx = currentIndex.value
+  if (idx < 0 || !sortedPosts.value) return null
+  return sortedPosts.value[idx + 1] || null
 })
 
 // Define layout metadata
@@ -72,13 +89,13 @@ definePageMeta({
 })
 
 useHead({
-  title: `${(post.value as any)?.title || 'Blog Post'} | DJ Moore`,
+  title: `${blogPost?.title || 'Blog Post'} | DJ Moore`,
   meta: [
-    { name: 'description', content: (post.value as any)?.description || '' },
-    { property: 'og:title', content: (post.value as any)?.title || '' },
-    { property: 'og:description', content: (post.value as any)?.description || '' },
+    { name: 'description', content: blogPost?.description || '' },
+    { property: 'og:title', content: blogPost?.title || '' },
+    { property: 'og:description', content: blogPost?.description || '' },
     { property: 'og:type', content: 'article' },
-    { property: 'article:published_time', content: (post.value as any)?.date || (post.value as any)?.meta?.date || '' },
+    { property: 'article:published_time', content: blogPost?.date || blogPost?.meta?.date || '' },
   ],
   link: [
     { rel: 'icon', type: 'image/x-icon', href: `${baseURL}favicon.ico` },
@@ -87,7 +104,7 @@ useHead({
 </script>
 
 <template>
-  <NuxtLayout :title="(post as any)?.title">
+  <NuxtLayout :title="blogPost?.title">
     <article class="blog-post">
       <div class="container">
         <nav class="breadcrumb" aria-label="Breadcrumb">
@@ -95,28 +112,28 @@ useHead({
           <span class="divider">/</span>
           <NuxtLink :to="baseURL + 'blog'">Blog</NuxtLink>
           <span class="divider">/</span>
-          <span class="current">{{ (post as any)?.title }}</span>
+          <span class="current">{{ blogPost?.title }}</span>
         </nav>
 
         <header class="blog-post__header">
-          <h1 class="blog-post__title">{{ (post as any)?.title }}</h1>
+          <h1 class="blog-post__title">{{ blogPost?.title }}</h1>
           <div class="blog-post__meta">
-            <time :datetime="(post as any)?.date || (post as any)?.meta?.date" class="blog-post__date">
+            <time :datetime="blogPost?.date || blogPost?.meta?.date" class="blog-post__date">
               {{ formattedDate }}
             </time>
           </div>
         </header>
 
-        <div v-if="(post as any)?.cover" class="blog-post__cover">
+        <div v-if="blogPost?.cover" class="blog-post__cover">
           <img 
-            :src="baseURL + (post as any).cover.replace(/^\//, '')" 
-            :alt="(post as any)?.title"
+            :src="baseURL + blogPost.cover.replace(/^\//, '')" 
+            :alt="blogPost?.title"
             loading="lazy"
           />
         </div>
 
         <div class="blog-post__content">
-          <ContentRenderer :value="(post as any)" />
+          <ContentRenderer :value="blogPost" />
         </div>
 
         <nav class="blog-post__navigation" aria-label="Post navigation">
