@@ -17,7 +17,7 @@ if (!post.value) {
 }
 
 const formattedDate = computed(() => {
-  if (!post.value?.date) return ''
+  if (!post.value || !(post.value as any).date) return ''
   return new Date((post.value as any).date).toLocaleDateString('en-US', {
     year: 'numeric',
     month: 'long',
