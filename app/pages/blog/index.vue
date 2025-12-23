@@ -3,7 +3,7 @@ import { computed, useRuntimeConfig, useHead } from '#imports'
 
 const baseURL = useRuntimeConfig().app.baseURL
 
-const { data: posts } = await useAsyncData('blog-posts', () => {
+const { data: posts, error: postsError } = await useAsyncData('blog-posts', () => {
   return queryCollection('blog').all()
 })
 
@@ -13,8 +13,8 @@ const formattedPosts = computed(() => {
   const result = (posts.value as any[])
     .filter((post: any) => post.path || post._path) // Filter out posts without paths
     .map((post: any) => {
-      // Extract date from meta
-      const postDate = post.meta?.date || '2024-01-01'
+      // Extract date from frontmatter
+      const postDate = (post as any).date || (post as any).meta?.date || '2024-01-01'
       
       // Parse date as local date to avoid timezone issues
       const [year, month, day] = postDate.split('-').map(Number)

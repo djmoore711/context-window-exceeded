@@ -4,8 +4,8 @@ import { computed, useRuntimeConfig, useHead } from '#imports'
 const route = useRoute()
 const baseURL = useRuntimeConfig().app.baseURL
 
-const { data: post } = await useAsyncData('blog-post-' + route.params.slug, () => {
-  return queryCollection('blog').path('/blog/' + route.params.slug).first()
+const { data: post, error: postError } = await useAsyncData('blog-post-' + route.params.slug, () => {
+  return queryCollection('blog').path(route.path).first()
 })
 
 const { data: allPosts } = await useAsyncData('blog-posts-nav', () => {
@@ -17,8 +17,9 @@ if (!post.value) {
 }
 
 const formattedDate = computed(() => {
-  if (!post.value || !(post.value as any).date) return ''
-  return new Date((post.value as any).date).toLocaleDateString('en-US', {
+  if (!post.value || !(post.value as any).date && !(post.value as any).meta?.date) return ''
+  const postDate = (post.value as any).date || (post.value as any).meta?.date
+  return new Date(postDate).toLocaleDateString('en-US', {
     year: 'numeric',
     month: 'long',
     day: 'numeric'
@@ -62,7 +63,7 @@ useHead({
     { property: 'og:title', content: (post.value as any)?.title || '' },
     { property: 'og:description', content: (post.value as any)?.description || '' },
     { property: 'og:type', content: 'article' },
-    { property: 'article:published_time', content: (post.value as any)?.date || '' },
+    { property: 'article:published_time', content: (post.value as any)?.date || (post.value as any)?.meta?.date || '' },
   ],
   link: [
     { rel: 'icon', type: 'image/x-icon', href: `${baseURL}favicon.ico` },
@@ -85,7 +86,7 @@ useHead({
         <header class="blog-post__header">
           <h1 class="blog-post__title">{{ (post as any)?.title }}</h1>
           <div class="blog-post__meta">
-            <time :datetime="(post as any)?.date" class="blog-post__date">
+            <time :datetime="(post as any)?.date || (post as any)?.meta?.date" class="blog-post__date">
               {{ formattedDate }}
             </time>
           </div>

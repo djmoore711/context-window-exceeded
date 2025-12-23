@@ -12,7 +12,7 @@ export default defineNuxtConfig({
     baseURL: process.env.NUXT_APP_BASE_URL || '/',
     buildAssetsDir: 'assets', // Helps keeps your build folder clean
     // Global page transition configuration
-    pageTransition: { name: 'page', mode: 'out-in' },
-    layoutTransition: { name: 'layout', mode: 'out-in' }
+    pageTransition: { name: 'page', mode: 'default' },
+    layoutTransition: { name: 'layout', mode: 'default' }
   }
 })
