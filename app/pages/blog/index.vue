@@ -9,10 +9,12 @@ const { data: posts } = await useAsyncData('blog-posts', () => {
 
 const formattedPosts = computed(() => {
   if (!posts.value) return []
-  return (posts.value as any[])
-    .filter((post: any) => post._path) // Filter out posts without paths
+  
+  const result = (posts.value as any[])
+    .filter((post: any) => post.path || post._path) // Filter out posts without paths
     .map((post: any) => ({
       ...post,
+      _path: post._path || post.path, // Use path if _path doesn't exist
       formattedDate: new Date(post.date).toLocaleDateString('en-US', {
         year: 'numeric',
         month: 'long',
@@ -20,6 +22,13 @@ const formattedPosts = computed(() => {
       })
     }))
     .sort((a: any, b: any) => new Date(b.date).getTime() - new Date(a.date).getTime())
+  
+  return result
+})
+
+// Define layout metadata
+definePageMeta({
+  layout: 'default'
 })
 
 useHead({
@@ -34,40 +43,15 @@ useHead({
 </script>
 
 <template>
-  <a class="skip-link" href="#main">Skip to content</a>
-
-  <header id="top" class="hero-surface">
-    <nav class="topbar" aria-label="Top">
-      <div class="topbar__left">
-        <span class="name">DJ Moore</span>
+  <NuxtLayout kicker="Security Engineering Blog" title="Thoughts on security, automation, and cloud engineering." 
+    lede="Practical insights from building security systems in messy environments. Real-world experiences with platform security, compliance, and automation.">
+    
+    <template #hero-actions>
+      <div class="hero-actions">
+        <a href="/" class="button">← Back to About</a>
       </div>
-      <div class="topbar__right">
-        <a :href="baseURL">About</a>
-        <a :href="baseURL + 'blog'">Blog</a>
-        <a href="https://www.linkedin.com/in/mooredarrell/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-        <a href="https://github.com/djmoore711" target="_blank" rel="noopener noreferrer">GitHub</a>
-        <a class="cta" href="mailto:owner@darrellmoore.me">Email Me</a>
-      </div>
-    </nav>
+    </template>
 
-    <section class="hero" aria-labelledby="hero-title">
-      <div class="hero-grid">
-        <div class="hero-inner">
-          <p class="kicker">Security Engineering Blog</p>
-          <h1 id="hero-title">Thoughts on security, automation, and cloud engineering.</h1>
-          <p class="lede">
-            Practical insights from building security systems in messy environments. 
-    Real-world experiences with platform security, compliance, and automation.
-          </p>
-          <div class="hero-actions">
-            <a href="/" class="button">← Back to About</a>
-          </div>
-        </div>
-      </div>
-    </section>
-  </header>
-
-  <main id="main" class="content">
     <section class="blog-section">
       <div class="container">
         <h2 class="section-title">Latest Posts</h2>
@@ -112,31 +96,12 @@ useHead({
         </div>
       </div>
     </section>
-  </main>
-
-  <footer class="footer">
-    <div class="container">
-      <p>&copy; {{ new Date().getFullYear() }} DJ Moore. Built with Nuxt.</p>
-    </div>
-  </footer>
+  </NuxtLayout>
 </template>
 
 <style scoped>
-.content {
-  max-width: var(--max);
-  margin: 0 auto;
-  padding: var(--space-6) var(--space-4) var(--space-7);
-}
-
 .blog-section {
-  padding: var(--space-7) 0 var(--space-6);
-  border-top: 1px solid var(--border);
-}
-
-.container {
-  max-width: var(--max);
-  margin: 0 auto;
-  padding: 0 var(--space-4);
+  padding: var(--space-7) 0 0;
 }
 
 .section-title {
@@ -246,19 +211,28 @@ useHead({
   text-decoration: underline;
 }
 
-.footer {
-  background: transparent;
-  padding: var(--space-5) 0;
-  text-align: center;
-  color: var(--muted);
-  border-top: 1px solid var(--border);
+.hero-actions {
+  margin-top: var(--space-5);
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  padding: calc(var(--space-2) + 1px) var(--space-3);
+  border-radius: 999px;
+  border: 1px solid var(--fg);
+  background: var(--fg);
+  color: var(--bg);
+  font-weight: 600;
+  transition: background-color .18s ease, color .18s ease, border-color .18s ease;
+}
+
+.button:hover {
+  background: rgba(255,255,255,.88);
 }
 
 @media (max-width: 768px) {
-  .content {
-    padding: var(--space-5) var(--space-3) var(--space-6);
-  }
-
   .blog-grid {
     grid-template-columns: 1fr;
   }

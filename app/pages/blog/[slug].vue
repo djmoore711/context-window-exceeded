@@ -50,6 +50,11 @@ const nextPost = computed(() => {
   return null
 })
 
+// Define layout metadata
+definePageMeta({
+  layout: 'default'
+})
+
 useHead({
   title: `${(post.value as any)?.title || 'Blog Post'} | DJ Moore`,
   meta: [
@@ -66,24 +71,7 @@ useHead({
 </script>
 
 <template>
-  <a class="skip-link" href="#main">Skip to content</a>
-
-  <header id="top" class="hero-surface">
-    <nav class="topbar" aria-label="Top">
-      <div class="topbar__left">
-        <span class="name">DJ Moore</span>
-      </div>
-      <div class="topbar__right">
-        <a :href="baseURL">About</a>
-        <a :href="baseURL + 'blog'">Blog</a>
-        <a href="https://www.linkedin.com/in/mooredarrell/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-        <a href="https://github.com/djmoore711" target="_blank" rel="noopener noreferrer">GitHub</a>
-        <a class="cta" href="mailto:owner@darrellmoore.me">Email Me</a>
-      </div>
-    </nav>
-  </header>
-
-  <main id="main" class="content">
+  <NuxtLayout :title="(post as any)?.title">
     <article class="blog-post">
       <div class="container">
         <nav class="breadcrumb" aria-label="Breadcrumb">
@@ -138,25 +126,12 @@ useHead({
         </nav>
       </div>
     </article>
-  </main>
-
-  <footer class="footer">
-    <div class="container">
-      <p>&copy; {{ new Date().getFullYear() }} DJ Moore. Built with Nuxt.</p>
-    </div>
-  </footer>
+  </NuxtLayout>
 </template>
 
 <style scoped>
-.content {
-  max-width: var(--max);
-  margin: 0 auto;
-  padding: var(--space-6) var(--space-4) var(--space-7);
-}
-
 .blog-post {
-  background: var(--bg);
-  min-height: 100vh;
+  padding-top: var(--space-6);
 }
 
 .container {
@@ -335,8 +310,9 @@ useHead({
 .nav-link a {
   display: flex;
   flex-direction: column;
-  color: var(--color-text-primary);
+  color: var(--fg);
   text-decoration: none;
+  font-weight: 600;
 }
 
 .nav-link--next a {
@@ -344,26 +320,19 @@ useHead({
 }
 
 .nav-link a:hover {
-  color: var(--color-accent);
+  color: var(--fg);
+  text-decoration: underline;
 }
 
 .nav-label {
   font-size: 0.875rem;
-  color: var(--color-text-secondary);
+  color: var(--muted);
   margin-bottom: 0.25rem;
 }
 
 .nav-title {
   font-weight: 500;
   line-height: 1.3;
-}
-
-.footer {
-  background: var(--color-surface);
-  padding: 2rem 0;
-  text-align: center;
-  color: var(--color-text-secondary);
-  border-top: 1px solid var(--color-border);
 }
 
 @media (max-width: 768px) {
