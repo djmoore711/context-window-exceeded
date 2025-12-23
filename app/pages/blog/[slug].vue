@@ -34,21 +34,33 @@ const currentIndex = computed(() => {
   return (allPosts.value as any[]).findIndex((p: any) => p._path === (post.value as any)._path)
 })
 
-const previousPost = computed(() => {
-  if (currentIndex.value < 0 || !allPosts.value) return null
+const sortedPosts = computed(() => {
+  if (!allPosts.value) return []
   const posts = allPosts.value as any[]
-  if (currentIndex.value < posts.length - 1) {
-    const prevPost = posts[currentIndex.value + 1]
+  return posts.sort((a: any, b: any) => {
+    const dateA = a.date || a.meta?.date || ''
+    const dateB = b.date || b.meta?.date || ''
+    return dateB.localeCompare(dateA) // Sort newest first (descending)
+  })
+})
+
+const previousPost = computed(() => {
+  if (currentIndex.value < 0 || !sortedPosts.value) return null
+  const posts = sortedPosts.value
+  const currentSortedIndex = posts.findIndex((p: any) => p._path === (post.value as any)._path)
+  if (currentSortedIndex < posts.length - 1) {
+    const prevPost = posts[currentSortedIndex + 1]
     return prevPost?._path ? prevPost : null
   }
   return null
 })
 
 const nextPost = computed(() => {
-  if (currentIndex.value <= 0 || !allPosts.value) return null
-  const posts = allPosts.value as any[]
-  if (currentIndex.value > 0) {
-    const nextPost = posts[currentIndex.value - 1]
+  if (currentIndex.value <= 0 || !sortedPosts.value) return null
+  const posts = sortedPosts.value
+  const currentSortedIndex = posts.findIndex((p: any) => p._path === (post.value as any)._path)
+  if (currentSortedIndex > 0) {
+    const nextPost = posts[currentSortedIndex - 1]
     return nextPost?._path ? nextPost : null
   }
   return null
