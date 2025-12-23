@@ -16,18 +16,29 @@ const formattedPosts = computed(() => {
       // Extract date from meta
       const postDate = post.meta?.date || '2024-01-01'
       
+      // Parse date as local date to avoid timezone issues
+      const [year, month, day] = postDate.split('-').map(Number)
+      const localDate = new Date(year, month - 1, day)
+      
       return {
         ...post,
         _path: post._path || post.path, // Use path if _path doesn't exist
         date: postDate,
-        formattedDate: new Date(postDate).toLocaleDateString('en-US', {
+        formattedDate: localDate.toLocaleDateString('en-US', {
           year: 'numeric',
           month: 'long',
           day: 'numeric'
         })
       }
     })
-    .sort((a: any, b: any) => new Date(b.date).getTime() - new Date(a.date).getTime())
+    .sort((a: any, b: any) => {
+      // Parse both dates as local dates for consistent sorting
+      const [aYear, aMonth, aDay] = a.date.split('-').map(Number)
+      const [bYear, bMonth, bDay] = b.date.split('-').map(Number)
+      const aLocal = new Date(aYear, aMonth - 1, aDay)
+      const bLocal = new Date(bYear, bMonth - 1, bDay)
+      return bLocal.getTime() - aLocal.getTime()
+    })
   
   return result
 })
