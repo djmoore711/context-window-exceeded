@@ -12,15 +12,21 @@ const formattedPosts = computed(() => {
   
   const result = (posts.value as any[])
     .filter((post: any) => post.path || post._path) // Filter out posts without paths
-    .map((post: any) => ({
-      ...post,
-      _path: post._path || post.path, // Use path if _path doesn't exist
-      formattedDate: new Date(post.date).toLocaleDateString('en-US', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric'
-      })
-    }))
+    .map((post: any) => {
+      // Extract date from meta
+      const postDate = post.meta?.date || '2024-01-01'
+      
+      return {
+        ...post,
+        _path: post._path || post.path, // Use path if _path doesn't exist
+        date: postDate,
+        formattedDate: new Date(postDate).toLocaleDateString('en-US', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric'
+        })
+      }
+    })
     .sort((a: any, b: any) => new Date(b.date).getTime() - new Date(a.date).getTime())
   
   return result
@@ -77,7 +83,7 @@ useHead({
             <div class="blog-card__content">
               <header class="blog-card__header">
                 <h3 class="blog-card__title">
-                  <a :href="baseURL + post._path">{{ post.title }}</a>
+                  <a :href="post._path.startsWith('/') ? post._path : baseURL + post._path">{{ post.title }}</a>
                 </h3>
                 <time :datetime="post.date" class="blog-card__date">
                   {{ post.formattedDate }}
@@ -87,7 +93,7 @@ useHead({
               <p class="blog-card__description">{{ post.description }}</p>
               
               <footer class="blog-card__footer">
-                <a :href="baseURL + post._path" class="blog-card__link">
+                <a :href="post._path.startsWith('/') ? post._path : baseURL + post._path" class="blog-card__link">
                   Read more →
                 </a>
               </footer>
