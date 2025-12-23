@@ -1,4 +1,6 @@
 <template>
   <NuxtRouteAnnouncer />
-  <NuxtPage />
+  <AppTransition>
+    <NuxtPage />
+  </AppTransition>
 </template>
