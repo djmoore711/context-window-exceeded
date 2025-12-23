@@ -14,5 +14,28 @@ export default defineNuxtConfig({
     // Global page transition configuration
     pageTransition: { name: 'page', mode: 'default' },
     layoutTransition: { name: 'layout', mode: 'default' }
+  },
+  nitro: {
+    prerender: {
+      crawlLinks: false,
+      routes: [
+        '/',
+        '/blog',
+        '/blog/cloud-security-best-practices',
+        '/blog/getting-started-with-security-automation',
+        '/blog/building-effective-soc2-compliance',
+        '/blog/the-art-of-security-postmortems'
+      ]
+    }
+  },
+  // Minimal dev server configuration
+  devServer: {
+    host: 'localhost',
+    port: 3000
+  },
+  // Configure content module with minimal settings
+  content: {
+    watch: false,
+    documentDriven: false
   }
 })

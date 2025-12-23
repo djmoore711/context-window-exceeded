@@ -9,7 +9,16 @@ if (route.path.startsWith('/blog')) {
 }
 
 const { data: page } = await useAsyncData('page-' + route.path, () => {
-  return queryCollection('content').path(route.path).first()
+  try {
+    return queryCollection('content').path(route.path).first()
+  } catch (error) {
+    console.error('Error fetching page:', error)
+    return null
+  }
+}, {
+  // Add error handling and caching
+  server: true,
+  default: () => null
 })
 
 if (!page.value) {

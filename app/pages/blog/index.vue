@@ -3,8 +3,17 @@ import { computed, useRuntimeConfig, useHead } from '#imports'
 
 const baseURL = useRuntimeConfig().app.baseURL
 
-const { data: posts, error: postsError } = await useAsyncData('blog-posts', () => {
-  return queryCollection('blog').all()
+const { data: posts, error: postsError } = await useAsyncData('blog-posts', async () => {
+  try {
+    return await queryCollection('blog').all()
+  } catch (error) {
+    console.error('Error fetching blog posts:', error)
+    return [] as any[]
+  }
+}, {
+  // Add error handling and caching
+  server: true,
+  default: () => []
 })
 
 const formattedPosts = computed(() => {
@@ -65,7 +74,7 @@ useHead({
     
     <template #hero-actions>
       <div class="hero-actions">
-        <NuxtLink to="/" class="button">← Back to About</NuxtLink>
+        <NuxtLink :to="baseURL" class="button">← Back to About</NuxtLink>
       </div>
     </template>
 
@@ -94,7 +103,7 @@ useHead({
             <div class="blog-card__content">
               <header class="blog-card__header">
                 <h3 class="blog-card__title">
-                  <NuxtLink :to="post._path.startsWith('/') ? post._path : baseURL + post._path">{{ post.title }}</NuxtLink>
+                  <NuxtLink :to="post._path">{{ post.title }}</NuxtLink>
                 </h3>
                 <time :datetime="post.date" class="blog-card__date">
                   {{ post.formattedDate }}
@@ -104,7 +113,7 @@ useHead({
               <p class="blog-card__description">{{ post.description }}</p>
               
               <footer class="blog-card__footer">
-                <NuxtLink :to="post._path.startsWith('/') ? post._path : baseURL + post._path" class="blog-card__link">
+                <NuxtLink :to="post._path" class="blog-card__link">
                   Read more →
                 </NuxtLink>
               </footer>

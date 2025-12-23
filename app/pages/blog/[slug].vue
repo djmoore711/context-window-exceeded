@@ -21,12 +21,30 @@ interface BlogPost {
 const route = useRoute()
 const baseURL = useRuntimeConfig().app.baseURL
 
-const { data: post, error: postError } = await useAsyncData('blog-post-' + route.params.slug, () => {
-  return queryCollection('blog').path(route.path).first()
+const { data: post, error: postError } = await useAsyncData('blog-post-' + route.params.slug, async () => {
+  try {
+    return await queryCollection('blog').path(route.path).first()
+  } catch (error) {
+    console.error('Error fetching blog post:', error)
+    return null as BlogPost | null
+  }
+}, {
+  // Add error handling and caching
+  server: true,
+  default: () => null as BlogPost | null
 })
 
-const { data: allPosts } = await useAsyncData('blog-posts-nav', () => {
-  return queryCollection('blog').all()
+const { data: allPosts } = await useAsyncData('blog-posts-nav', async () => {
+  try {
+    return await queryCollection('blog').all()
+  } catch (error) {
+    console.error('Error fetching all posts:', error)
+    return [] as BlogPost[]
+  }
+}, {
+  // Add error handling and caching
+  server: true,
+  default: () => [] as BlogPost[]
 })
 
 if (!post.value) {
@@ -139,18 +157,18 @@ useHead({
         <nav class="blog-post__navigation" aria-label="Post navigation">
           <div class="nav-links">
             <div v-if="previousPost && previousPost._path" class="nav-link nav-link--prev">
-              <NuxtLink :to="previousPost._path.startsWith('/') ? baseURL.slice(0, -1) + previousPost._path : baseURL + previousPost._path">
+              <NuxtLink :to="previousPost._path">
                 <span class="nav-label">← Previous</span>
                 <span class="nav-title">{{ previousPost.title }}</span>
               </NuxtLink>
             </div>
             
             <div class="nav-link nav-link--center">
-              <NuxtLink :to="baseURL + 'blog'">← Back to Blog</NuxtLink>
+              <NuxtLink :to="`${baseURL}blog`">← Back to Blog</NuxtLink>
             </div>
             
             <div v-if="nextPost && nextPost._path" class="nav-link nav-link--next">
-              <NuxtLink :to="nextPost._path.startsWith('/') ? baseURL.slice(0, -1) + nextPost._path : baseURL + nextPost._path">
+              <NuxtLink :to="nextPost._path">
                 <span class="nav-label">Next →</span>
                 <span class="nav-title">{{ nextPost.title }}</span>
               </NuxtLink>
