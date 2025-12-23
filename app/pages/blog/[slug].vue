@@ -9,7 +9,7 @@ const { data: post } = await useAsyncData('blog-post-' + route.params.slug, () =
 })
 
 const { data: allPosts } = await useAsyncData('blog-posts-nav', () => {
-  return queryCollection('blog').sort({ date: -1 }).all()
+  return queryCollection('blog').all()
 })
 
 if (!post.value) {
@@ -17,7 +17,8 @@ if (!post.value) {
 }
 
 const formattedDate = computed(() => {
-  return new Date(post.value.date).toLocaleDateString('en-US', {
+  if (!post.value?.date) return ''
+  return new Date((post.value as any).date).toLocaleDateString('en-US', {
     year: 'numeric',
     month: 'long',
     day: 'numeric'
@@ -25,31 +26,38 @@ const formattedDate = computed(() => {
 })
 
 const currentIndex = computed(() => {
-  return allPosts.value?.findIndex(p => p._path === post.value._path) ?? -1
+  if (!allPosts.value || !post.value) return -1
+  return (allPosts.value as any[]).findIndex((p: any) => p._path === (post.value as any)._path)
 })
 
 const previousPost = computed(() => {
-  if (currentIndex.value < allPosts.value?.length - 1) {
-    return allPosts.value[currentIndex.value + 1]
+  if (currentIndex.value < 0 || !allPosts.value) return null
+  const posts = allPosts.value as any[]
+  if (currentIndex.value < posts.length - 1) {
+    const prevPost = posts[currentIndex.value + 1]
+    return prevPost?._path ? prevPost : null
   }
   return null
 })
 
 const nextPost = computed(() => {
+  if (currentIndex.value <= 0 || !allPosts.value) return null
+  const posts = allPosts.value as any[]
   if (currentIndex.value > 0) {
-    return allPosts.value[currentIndex.value - 1]
+    const nextPost = posts[currentIndex.value - 1]
+    return nextPost?._path ? nextPost : null
   }
   return null
 })
 
 useHead({
-  title: `${post.value.title} | DJ Moore`,
+  title: `${(post.value as any)?.title || 'Blog Post'} | DJ Moore`,
   meta: [
-    { name: 'description', content: post.value.description },
-    { property: 'og:title', content: post.value.title },
-    { property: 'og:description', content: post.value.description },
+    { name: 'description', content: (post.value as any)?.description || '' },
+    { property: 'og:title', content: (post.value as any)?.title || '' },
+    { property: 'og:description', content: (post.value as any)?.description || '' },
     { property: 'og:type', content: 'article' },
-    { property: 'article:published_time', content: post.value.date },
+    { property: 'article:published_time', content: (post.value as any)?.date || '' },
   ],
   link: [
     { rel: 'icon', type: 'image/x-icon', href: `${baseURL}favicon.ico` },
@@ -81,33 +89,33 @@ useHead({
           <span class="divider">/</span>
           <a :href="baseURL + 'blog'">Blog</a>
           <span class="divider">/</span>
-          <span class="current">{{ post.title }}</span>
+          <span class="current">{{ (post as any)?.title }}</span>
         </nav>
 
         <header class="blog-post__header">
-          <h1 class="blog-post__title">{{ post.title }}</h1>
+          <h1 class="blog-post__title">{{ (post as any)?.title }}</h1>
           <div class="blog-post__meta">
-            <time :datetime="post.date" class="blog-post__date">
+            <time :datetime="(post as any)?.date" class="blog-post__date">
               {{ formattedDate }}
             </time>
           </div>
         </header>
 
-        <div v-if="post.cover" class="blog-post__cover">
+        <div v-if="(post as any)?.cover" class="blog-post__cover">
           <img 
-            :src="baseURL + post.cover.replace(/^\//, '')" 
-            :alt="post.title"
+            :src="baseURL + (post as any).cover.replace(/^\//, '')" 
+            :alt="(post as any)?.title"
             loading="lazy"
           />
         </div>
 
         <div class="blog-post__content">
-          <ContentRenderer :value="post" />
+          <ContentRenderer :value="(post as any)" />
         </div>
 
         <nav class="blog-post__navigation" aria-label="Post navigation">
           <div class="nav-links">
-            <div v-if="previousPost" class="nav-link nav-link--prev">
+            <div v-if="previousPost && previousPost._path" class="nav-link nav-link--prev">
               <a :href="baseURL + previousPost._path">
                 <span class="nav-label">← Previous</span>
                 <span class="nav-title">{{ previousPost.title }}</span>
@@ -118,7 +126,7 @@ useHead({
               <a :href="baseURL + 'blog'">← Back to Blog</a>
             </div>
             
-            <div v-if="nextPost" class="nav-link nav-link--next">
+            <div v-if="nextPost && nextPost._path" class="nav-link nav-link--next">
               <a :href="baseURL + nextPost._path">
                 <span class="nav-label">Next →</span>
                 <span class="nav-title">{{ nextPost.title }}</span>

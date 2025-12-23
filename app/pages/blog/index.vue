@@ -4,18 +4,22 @@ import { computed, useRuntimeConfig, useHead } from '#imports'
 const baseURL = useRuntimeConfig().app.baseURL
 
 const { data: posts } = await useAsyncData('blog-posts', () => {
-  return queryCollection('blog').sort({ date: -1 }).all()
+  return queryCollection('blog').all()
 })
 
 const formattedPosts = computed(() => {
-  return posts.value?.map(post => ({
-    ...post,
-    formattedDate: new Date(post.date).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
-    })
-  })) || []
+  if (!posts.value) return []
+  return (posts.value as any[])
+    .filter((post: any) => post._path) // Filter out posts without paths
+    .map((post: any) => ({
+      ...post,
+      formattedDate: new Date(post.date).toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      })
+    }))
+    .sort((a: any, b: any) => new Date(b.date).getTime() - new Date(a.date).getTime())
 })
 
 useHead({
