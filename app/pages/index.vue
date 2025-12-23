@@ -26,6 +26,7 @@ useHead({
         <span class="name">DJ Moore</span>
       </div>
       <div class="topbar__right">
+        <a href="/blog">Blog</a>
         <a href="https://www.linkedin.com/in/mooredarrell/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
         <a href="https://github.com/djmoore711" target="_blank" rel="noopener noreferrer">GitHub</a>
         <a class="cta" href="mailto:owner@darrellmoore.me">Email Me</a>
