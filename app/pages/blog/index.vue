@@ -42,6 +42,8 @@ useHead({
         <span class="name">DJ Moore</span>
       </div>
       <div class="topbar__right">
+        <a :href="baseURL">About</a>
+        <a :href="baseURL + 'blog'">Blog</a>
         <a href="https://www.linkedin.com/in/mooredarrell/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
         <a href="https://github.com/djmoore711" target="_blank" rel="noopener noreferrer">GitHub</a>
         <a class="cta" href="mailto:owner@darrellmoore.me">Email Me</a>
@@ -120,97 +122,111 @@ useHead({
 </template>
 
 <style scoped>
+.content {
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: var(--space-6) var(--space-4) var(--space-7);
+}
+
 .blog-section {
-  padding: 4rem 0;
-  background: var(--color-background);
+  padding: var(--space-7) 0 var(--space-6);
+  border-top: 1px solid var(--border);
 }
 
 .container {
-  max-width: 1200px;
+  max-width: var(--max);
   margin: 0 auto;
-  padding: 0 2rem;
+  padding: 0 var(--space-4);
 }
 
 .section-title {
-  font-size: 2.5rem;
-  font-weight: 700;
-  margin-bottom: 3rem;
-  text-align: center;
-  color: var(--color-text-primary);
+  font-size: var(--fs-4);
+  font-weight: 650;
+  margin: 0 0 var(--space-5);
+  letter-spacing: -0.02em;
 }
 
 .no-posts {
   text-align: center;
-  padding: 4rem 0;
-  color: var(--color-text-secondary);
+  padding: var(--space-7) 0;
+  color: var(--muted);
 }
 
 .blog-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-  gap: 2rem;
-  margin-bottom: 4rem;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: var(--space-4);
 }
 
 .blog-card {
-  background: var(--color-surface);
-  border-radius: 8px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
   overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 12px 40px var(--shadow);
+  transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
 }
 
 .blog-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  transform: translateY(-4px);
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.45);
+  border-color: rgba(255, 255, 255, 0.22);
 }
 
 .blog-card__image {
   width: 100%;
-  height: 200px;
-  overflow: hidden;
+  aspect-ratio: 16 / 9;
+  background: radial-gradient(800px 600px at 20% 20%, rgba(255,255,255,.06), transparent 60%), #0f0f10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .blog-card__image img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  display: block;
 }
 
 .blog-card__content {
-  padding: 1.5rem;
+  padding: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  height: 100%;
 }
 
 .blog-card__header {
-  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
 }
 
 .blog-card__title {
-  font-size: 1.25rem;
-  font-weight: 600;
-  margin: 0 0 0.5rem 0;
-  line-height: 1.3;
+  font-size: var(--fs-2);
+  margin: 0;
+  letter-spacing: -0.01em;
 }
 
 .blog-card__title a {
-  color: var(--color-text-primary);
   text-decoration: none;
 }
 
 .blog-card__title a:hover {
-  color: var(--color-accent);
+  text-decoration: underline;
 }
 
 .blog-card__date {
-  font-size: 0.875rem;
-  color: var(--color-text-secondary);
+  font-size: var(--fs-0);
+  color: var(--muted);
   font-family: var(--font-mono);
 }
 
 .blog-card__description {
-  color: var(--color-text-secondary);
-  line-height: 1.6;
-  margin-bottom: 1.5rem;
+  color: var(--muted);
+  line-height: 1.7;
+  margin: 0;
 }
 
 .blog-card__footer {
@@ -218,9 +234,12 @@ useHead({
 }
 
 .blog-card__link {
-  color: var(--color-accent);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: inherit;
   text-decoration: none;
-  font-weight: 500;
+  font-weight: 600;
 }
 
 .blog-card__link:hover {
@@ -228,25 +247,24 @@ useHead({
 }
 
 .footer {
-  background: var(--color-surface);
-  padding: 2rem 0;
+  background: transparent;
+  padding: var(--space-5) 0;
   text-align: center;
-  color: var(--color-text-secondary);
-  border-top: 1px solid var(--color-border);
+  color: var(--muted);
+  border-top: 1px solid var(--border);
 }
 
 @media (max-width: 768px) {
+  .content {
+    padding: var(--space-5) var(--space-3) var(--space-6);
+  }
+
   .blog-grid {
     grid-template-columns: 1fr;
-    gap: 1.5rem;
   }
-  
+
   .section-title {
-    font-size: 2rem;
-  }
-  
-  .container {
-    padding: 0 1rem;
+    font-size: var(--fs-3);
   }
 }
 </style>
