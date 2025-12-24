@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { computed, useRuntimeConfig, useHead } from '#imports'
+import { useRuntimeConfig, useHead } from '#imports'
 
 const baseURL = useRuntimeConfig().app.baseURL
 
-const { data: posts, error: postsError } = await useAsyncData('blog-posts', async () => {
+const { data: posts } = await useAsyncData('blog-posts', async () => {
   try {
     return await queryCollection('blog').all()
   } catch (error) {
@@ -23,7 +23,15 @@ const formattedPosts = computed(() => {
     .filter((post: any) => post.path || post._path) // Filter out posts without paths
     .map((post: any) => {
       // Extract date from frontmatter
-      const postDate = (post as any).date || (post as any).meta?.date || '2024-01-01'
+      let postDate = (post as any).date || (post as any).meta?.date || '2024-01-01'
+      
+      // Handle both string and Date formats
+      if (postDate instanceof Date) {
+        postDate = postDate.toISOString().split('T')[0]
+      } else if (typeof postDate === 'string') {
+        // Ensure consistent format
+        postDate = postDate.trim()
+      }
       
       // Parse date as local date to avoid timezone issues
       const [year, month, day] = postDate.split('-').map(Number)
@@ -52,9 +60,9 @@ const formattedPosts = computed(() => {
   return result
 })
 
-// Define layout metadata
+// Disable automatic layout because we render NuxtLayout manually in the template
 definePageMeta({
-  layout: 'default'
+  layout: false
 })
 
 useHead({

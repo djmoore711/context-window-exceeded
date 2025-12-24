@@ -3,6 +3,7 @@ export default defineNuxtConfig({
   modules: [
     '@nuxt/content',
   ],
+  ssr: true,
   devtools: { enabled: false },
   future: {
     compatibilityVersion: 4,
@@ -35,7 +36,8 @@ export default defineNuxtConfig({
   },
   // Configure content module with minimal settings
   content: {
-    watch: false,
-    documentDriven: false
+    watch: {
+      enabled: false
+    }
   }
 })

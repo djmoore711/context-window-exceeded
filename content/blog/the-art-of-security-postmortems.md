@@ -1,8 +1,8 @@
 ---
-title: The Art of Security Postmortems
-date: 2024-12-22
-description: A practical guide to running security incident postmortems that build trust and drive improvement without blame.
-cover: /blog-images/the-art-of-security-postmortems/cover.jpg
+title: "The Art of Security Postmortems"
+date: "2024-12-22"
+description: "A practical guide to running security incident postmortems that build trust and drive improvement without blame."
+cover: "/blog-images/the-art-of-security-postmortems/cover.jpg"
 ---
 
 # The Art of Security Postmortems

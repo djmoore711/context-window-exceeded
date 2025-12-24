@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, useRuntimeConfig, useHead } from '#imports'
+import { useRuntimeConfig, useHead } from '#imports'
 
 // TypeScript interfaces for type safety
 interface BlogPostMeta {

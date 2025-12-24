@@ -75,7 +75,7 @@ function formatNumber(value: number): string {
               <span class="stat__value">{{ formatNumber(repo.forks) }}</span>
             </span>
             <span class="stat" aria-label="Language">
-              <span class="dot" aria-hidden="true" />
+              <span class="dot" aria-hidden="true" :style="{ background: repo.languageColor }" />
               <span class="stat__value">{{ repo.language }}</span>
             </span>
           </div>
@@ -216,7 +216,6 @@ function formatNumber(value: number): string {
   height:.55rem;
   border-radius:999px;
   display:inline-block;
-  background:rgba(255,255,255,.45);
 }
 
 .card__button{
