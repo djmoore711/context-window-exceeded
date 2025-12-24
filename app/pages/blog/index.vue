@@ -60,10 +60,8 @@ const formattedPosts = computed(() => {
   return result
 })
 
-// Disable automatic layout because we render NuxtLayout manually in the template
-definePageMeta({
-  layout: false
-})
+// Use default layout so header/hero render
+definePageMeta({})
 
 useHead({
   title: 'Blog | DJ Moore',
@@ -77,8 +75,11 @@ useHead({
 </script>
 
 <template>
-  <NuxtLayout kicker="Security Engineering Blog" title="Thoughts on security, automation, and cloud engineering." 
-    lede="Practical insights from building security systems in messy environments. Real-world experiences with platform security, compliance, and automation.">
+  <NuxtLayout 
+    kicker="Security Engineering Blog" 
+    title="Thoughts on security, automation, and cloud engineering" 
+    lede="Practical insights from building security systems in messy environments. Real-world experiences with platform security, compliance, and automation."
+  >
     
     <template #hero-actions>
       <div class="hero-actions">
@@ -87,7 +88,7 @@ useHead({
     </template>
 
     <section class="blog-section">
-      <div class="container">
+      <div class="blog-container">
         <h2 class="section-title">Latest Posts</h2>
         
         <div v-if="formattedPosts.length === 0" class="no-posts">
@@ -135,7 +136,13 @@ useHead({
 
 <style scoped>
 .blog-section {
-  padding: var(--space-7) 0 0;
+  padding: var(--space-6) 0 var(--space-7);
+}
+
+.blog-container {
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: 0 var(--space-4);
 }
 
 .section-title {
@@ -143,6 +150,7 @@ useHead({
   font-weight: 650;
   margin: 0 0 var(--space-5);
   letter-spacing: -0.02em;
+  color: var(--fg);
 }
 
 .no-posts {
@@ -155,6 +163,7 @@ useHead({
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
   gap: var(--space-4);
+  margin-top: var(--space-5);
 }
 
 .blog-card {
@@ -164,6 +173,9 @@ useHead({
   overflow: hidden;
   box-shadow: 0 12px 40px var(--shadow);
   transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
 .blog-card:hover {
@@ -193,7 +205,7 @@ useHead({
   display: flex;
   flex-direction: column;
   gap: var(--space-3);
-  height: 100%;
+  flex: 1;
 }
 
 .blog-card__header {
@@ -230,6 +242,7 @@ useHead({
 
 .blog-card__footer {
   margin-top: auto;
+  padding-top: var(--space-2);
 }
 
 .blog-card__link {
@@ -269,10 +282,19 @@ useHead({
 @media (max-width: 768px) {
   .blog-grid {
     grid-template-columns: 1fr;
+    gap: var(--space-3);
   }
 
   .section-title {
     font-size: var(--fs-3);
+  }
+
+  .blog-container {
+    padding: 0 var(--space-3);
+  }
+
+  .blog-card__content {
+    padding: var(--space-3);
   }
 }
 </style>
