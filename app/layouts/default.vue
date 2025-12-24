@@ -280,6 +280,11 @@ a:focus-visible{outline:2px solid var(--fg); outline-offset:3px;}
 .portrait{
   margin:var(--space-4) 0;
   max-width:16rem;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  text-align:center;
+  gap:var(--space-2);
 }
 
 .portrait-photo{
@@ -352,16 +357,18 @@ a:focus-visible{outline:2px solid var(--fg); outline-offset:3px;}
   background:rgba(255,255,255,.18);
 }
 
-.portrait-cta{
+.portrait-cta,
+.portrait-cta:link,
+.portrait-cta:visited{
   display:inline-flex;
   align-items:center;
   justify-content:center;
   margin-top:var(--space-3);
   padding:calc(var(--space-2) + 1px) var(--space-4);
   border-radius:999px;
-  border:1px solid rgba(255,255,255,.3);
-  background:rgba(255,255,255,.12);
-  color:var(--fg);
+  border:1px solid var(--fg);
+  background:var(--fg);
+  color:var(--bg);
   font-weight:650;
   letter-spacing:-0.01em;
   text-decoration:none;
@@ -369,9 +376,12 @@ a:focus-visible{outline:2px solid var(--fg); outline-offset:3px;}
   transition:all .18s ease;
 }
 
-.portrait-cta:hover{
-  border-color:rgba(255,255,255,.5);
-  background:rgba(255,255,255,.2);
+.portrait-cta:hover,
+.portrait-cta:active,
+.portrait-cta:focus-visible{
+  border-color:rgba(255,255,255,.9);
+  background:rgba(255,255,255,.9);
+  color:var(--bg);
   transform:translateY(-1px);
 }
 
