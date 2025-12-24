@@ -60,8 +60,10 @@ const formattedPosts = computed(() => {
   return result
 })
 
-// Use default layout so header/hero render
-definePageMeta({})
+// Disable auto layout because we render NuxtLayout manually in the template
+definePageMeta({
+  layout: false
+})
 
 useHead({
   title: 'Blog | DJ Moore',
@@ -76,6 +78,7 @@ useHead({
 
 <template>
   <NuxtLayout 
+    name="default"
     kicker="Security Engineering Blog" 
     title="Thoughts on security, automation, and cloud engineering" 
     lede="Practical insights from building security systems in messy environments. Real-world experiences with platform security, compliance, and automation."
