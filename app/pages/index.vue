@@ -35,6 +35,12 @@ definePageMeta({
       </ul>
     </template>
 
+    <template #hero-below-portrait>
+      <NuxtLink :to="baseURL + 'blog'" class="portrait-cta">
+        Read the blog →
+      </NuxtLink>
+    </template>
+
     <section class="rail" aria-labelledby="how-title">
       <div class="rail__label">
         <div class="sticky">

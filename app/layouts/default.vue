@@ -26,6 +26,7 @@
         <figure class="portrait" v-if="showPortrait">
           <img class="portrait-photo" :src="portraitSrc" alt="Portrait of DJ Moore" loading="lazy" decoding="async" width="640" height="640" />
           <img class="signature" :src="signatureSrc" alt="Signature of DJ Moore" loading="lazy" decoding="async" width="320" height="120" />
+          <slot name="hero-below-portrait" />
         </figure>
       </div>
     </section>
@@ -326,9 +327,52 @@ a:focus-visible{outline:2px solid var(--fg); outline-offset:3px;}
   border:1px solid var(--border);
   background:rgba(255,255,255,.04);
   border-radius:999px;
-  padding:var(--space-2) var(--space-3);
-  font-size:var(--fs-0);
-  color:var(--muted);
+  padding:calc(var(--space-2) + 1px) var(--space-3);
+  display:inline-flex;
+  align-items:center;
+  gap:var(--space-2);
+  color:var(--fg);
+  font-weight:600;
+  letter-spacing:-0.01em;
+  transition:all .18s ease;
+}
+
+.chips li:hover{
+  border-color:rgba(255,255,255,.2);
+  background:rgba(255,255,255,.08);
+}
+
+.chips .chip-link{
+  border-color:rgba(255,255,255,.32);
+  background:rgba(255,255,255,.12);
+}
+
+.chips .chip-link:hover{
+  border-color:rgba(255,255,255,.5);
+  background:rgba(255,255,255,.18);
+}
+
+.portrait-cta{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  margin-top:var(--space-3);
+  padding:calc(var(--space-2) + 1px) var(--space-4);
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,.3);
+  background:rgba(255,255,255,.12);
+  color:var(--fg);
+  font-weight:650;
+  letter-spacing:-0.01em;
+  text-decoration:none;
+  box-shadow:0 10px 30px rgba(0,0,0,.35);
+  transition:all .18s ease;
+}
+
+.portrait-cta:hover{
+  border-color:rgba(255,255,255,.5);
+  background:rgba(255,255,255,.2);
+  transform:translateY(-1px);
 }
 
 /* Capabilities cards */
