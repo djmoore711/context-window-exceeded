@@ -21,11 +21,7 @@ export default defineNuxtConfig({
       crawlLinks: false,
       routes: [
         '/',
-        '/blog',
-        '/blog/cloud-security-best-practices',
-        '/blog/getting-started-with-security-automation',
-        '/blog/building-effective-soc2-compliance',
-        '/blog/the-art-of-security-postmortems'
+        '/blog'
       ]
     }
   },
