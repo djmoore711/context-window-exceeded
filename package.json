@@ -2,9 +2,10 @@
   "name": "context-window-exceeded",
   "private": true,
   "type": "module",
+  "description": "DJ Moore - Personal Portfolio built with Nuxt 4",
   "scripts": {
     "build": "nuxt build",
-    "dev": "nuxt dev",
+    "dev": "NODE_OPTIONS=--openssl-legacy-provider nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview"
   },
@@ -15,5 +16,9 @@
   },
   "devDependencies": {
     "@types/node": "^24.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
   }
 }

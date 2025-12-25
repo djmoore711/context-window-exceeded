@@ -16,8 +16,10 @@ A modern, minimalist portfolio website built with Nuxt 4 and deployed on GitHub 
 
 ### Prerequisites
 
-- Node.js 18+ 
-- npm or yarn package manager
+- Node.js 18+ (recommended: Node.js 20+)
+- npm 9+ (comes with Node.js 18+)
+
+**Note**: The development script uses `NODE_OPTIONS=--openssl-legacy-provider` for compatibility with certain Node.js versions. This is handled automatically in the npm scripts.
 
 ### Installation
 
@@ -35,13 +37,35 @@ npm run dev
 
 The development server will start at `http://localhost:3000`
 
+**Development Notes**:
+- The `dev` script includes `NODE_OPTIONS=--openssl-legacy-provider` for Node.js compatibility
+- If you encounter OpenSSL errors, try updating Node.js to v20 or use the provided script
+- Content changes in `content/` directory will hot-reload automatically
+
 ## 📝 Content Management
 
 Content is managed through Markdown files in the `content/` directory:
 
 - `content/index.md` - Homepage content
 - `content/about.md` - About page content
+- `content/blog/` - Blog posts (Markdown files with front matter)
 - Add new pages by creating `.md` files in the content directory
+- Add new blog posts by creating `.md` files in `content/blog/` with the template structure
+
+### Blog Post Template
+
+Blog posts use the following front matter structure:
+
+```markdown
+---
+title: "Your Blog Post Title"
+date: "2024-12-24"
+description: "A brief description of your blog post"
+cover: "/blog-images/your-folder-name/cover.jpg"
+---
+```
+
+See `content/blog/my-first-blog-post.md` for a complete template example.
 
 ## 🛠 Development
 
@@ -83,9 +107,15 @@ context-window-exceeded/
 
 This project is configured for automatic deployment to GitHub Pages:
 
-1. Push changes to the `main` branch
+1. Push changes to the **`main`** branch
 2. GitHub Actions will automatically build and deploy
 3. Site will be available at `https://djmoore711.github.io/context-window-exceeded/`
+
+**Deployment Configuration**:
+- Base URL: `/context-window-exceeded/`
+- Build command: `nuxt build --preset github-pages`
+- Output directory: `.output/public`
+- Environment variables: Set `NUXT_APP_BASE_URL=/context-window-exceeded/` in GitHub Pages settings
 
 ### Manual Deployment
 
@@ -100,9 +130,10 @@ npm run generate
 
 The site is configured for GitHub Pages deployment with:
 
-- `baseURL: '/context-window-exceeded/'` in `nuxt.config.ts`
+- `baseURL: process.env.NUXT_APP_BASE_URL || '/'` in `nuxt.config.ts`
 - GitHub Actions workflow in `.github/workflows/deploy.yml`
-- Static generation with `nuxt generate --preset github-pages`
+- Static generation with `nuxt build --preset github-pages`
+- Environment-specific base URL configuration via `.env.example`
 
 ## 🎨 Customization
 
