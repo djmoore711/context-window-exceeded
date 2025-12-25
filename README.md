@@ -107,7 +107,7 @@ context-window-exceeded/
 
 This project is configured for automatic deployment to GitHub Pages:
 
-1. Push changes to the `8003830a` branch (current deployment branch)
+1. Push changes to the **`main`** branch
 2. GitHub Actions will automatically build and deploy
 3. Site will be available at `https://djmoore711.github.io/context-window-exceeded/`
 
