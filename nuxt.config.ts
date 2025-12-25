@@ -10,7 +10,7 @@ export default defineNuxtConfig({
   },
   compatibilityDate: '2024-04-03',
   app: {
-    baseURL: process.env.NUXT_APP_BASE_URL || '/',
+    baseURL: process.env.NODE_ENV === 'production' ? (process.env.NUXT_APP_BASE_URL || '/') : '/',
     buildAssetsDir: 'assets', // Helps keeps your build folder clean
     // Global page transition configuration
     pageTransition: { name: 'page', mode: 'default' },
@@ -24,11 +24,6 @@ export default defineNuxtConfig({
         '/blog'
       ]
     }
-  },
-  // Minimal dev server configuration
-  devServer: {
-    host: 'localhost',
-    port: 3000
   },
   // Configure content module with minimal settings
   content: {
