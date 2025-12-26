@@ -125,22 +125,11 @@ useHead({
   <NuxtLayout :title="blogPost?.title">
     <article class="blog-post">
       <div class="container">
-        <nav class="breadcrumb" aria-label="Breadcrumb">
-          <NuxtLink :to="baseURL">Home</NuxtLink>
-          <span class="divider">/</span>
-          <NuxtLink :to="baseURL + 'blog'">Blog</NuxtLink>
-          <span class="divider">/</span>
-          <span class="current">{{ blogPost?.title }}</span>
-        </nav>
-
-        <header class="blog-post__header">
-          <h1 class="blog-post__title">{{ blogPost?.title }}</h1>
-          <div class="blog-post__meta">
-            <time :datetime="blogPost?.date || blogPost?.meta?.date" class="blog-post__date">
-              {{ formattedDate }}
-            </time>
-          </div>
-        </header>
+        <p v-if="formattedDate" class="blog-post__meta-inline">
+          <time :datetime="blogPost?.date || blogPost?.meta?.date">
+            {{ formattedDate }}
+          </time>
+        </p>
 
         <div v-if="blogPost?.cover" class="blog-post__cover">
           <img 
@@ -273,6 +262,10 @@ useHead({
 .blog-post__content :deep(h1) { font-size: var(--fs-4); }
 .blog-post__content :deep(h2) { font-size: var(--fs-3); }
 .blog-post__content :deep(h3) { font-size: var(--fs-2); }
+
+.blog-post__content :deep(h1:first-of-type) {
+  display: none;
+}
 
 .blog-post__content :deep(p) {
   margin-bottom: var(--space-4);
