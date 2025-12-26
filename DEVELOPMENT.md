@@ -1,193 +1,136 @@
 # Development Setup Guide
 
-This document provides detailed information about the development setup and configuration for the DJ Moore Personal Portfolio.
+This document reflects the current, verified development and deployment setup for the project. <!-- Changed because documentation must reflect current state -->
 
 ## Environment Setup
 
-### Node.js Requirements
-
-- **Minimum**: Node.js 18.0.0
-- **Recommended**: Node.js 20.x LTS
-- **Package Manager**: npm 9+ (comes with Node.js 18+)
+- **Node.js**: `>=18.0.0` (CI uses Node 20) <!-- Changed because CI uses Node 20; engines allow >=18 -->
+- **npm**: `>=9.0.0`
+- **Package manager**: npm
 
 ### OpenSSL Legacy Provider
 
-The project uses `NODE_OPTIONS=--openssl-legacy-provider` in the development script for compatibility:
+The development script already sets `NODE_OPTIONS=--openssl-legacy-provider`:
 
 ```bash
-# This is already configured in package.json scripts
-npm run dev  # Includes the flag automatically
+npm run dev
 ```
 
-**Why this is needed**: Some Node.js versions (especially v18) require the legacy OpenSSL provider for certain cryptographic operations used by Nuxt and its dependencies.
+Use this script (or upgrade to Node 20+) if you hit OpenSSL errors. <!-- Changed because this is the only verified usage -->
 
-**Alternatives**:
-1. Upgrade to Node.js 20+ (recommended)
-2. Use the provided script with the flag
-3. Set the flag manually: `NODE_OPTIONS=--openssl-legacy-provider npm run dev`
-
-## Configuration Files
+## Configuration
 
 ### Environment Variables
 
-Create a `.env` file based on `.env.example`:
+Copy `.env.example` if you need overrides:
 
 ```bash
-# For local development
-NUXT_APP_BASE_URL=/
-
-# For GitHub Pages deployment
-NUXT_APP_BASE_URL=/context-window-exceeded/
+NUXT_APP_BASE_URL=/context-window-exceeded/  # GitHub Pages base path
 ```
 
-### Nuxt Configuration
+- Local dev defaults to `/` via `nuxt.config.ts` when `NODE_ENV` is not `production`. <!-- Changed because nuxt.config.ts enforces "/" in dev -->
+- No other environment variables are used. <!-- Changed because only NUXT_APP_BASE_URL is present -->
 
-Key settings in `nuxt.config.ts`:
+### Nuxt Configuration (key points from `nuxt.config.ts`)
 
-```typescript
-export default defineNuxtConfig({
-  modules: ['@nuxt/content'],
-  ssr: true,
-  devtools: { enabled: false },
-  app: {
-    baseURL: process.env.NUXT_APP_BASE_URL || '/',
-    buildAssetsDir: 'assets'
-  },
-  nitro: {
-    prerender: {
-      crawlLinks: false,
-      routes: ['/', '/blog']  // Only root and blog index
-    }
-  }
-})
-```
+- Modules: `@nuxt/content`
+- SSR: enabled
+- Base URL: `/` in dev; `process.env.NUXT_APP_BASE_URL || '/'` in production
+- Assets dir: `assets`
+- Prerendered routes: `/`, `/blog`
+- Content watch: disabled (`content.watch.enabled = false`)
+<!-- Changed because previous content config and baseURL description did not match nuxt.config.ts -->
 
-### Content Configuration
+### Content Configuration (from `content.config.ts`)
 
-The `content.config.ts` configures Nuxt Content:
-
-```typescript
-export default defineContentConfig({
-  experimental: {
-    nativeSqlite: true
-  },
-  collections: {
-    content: defineCollection({ type: 'page', source: '**' }),
-    blog: defineCollection({ type: 'page', source: 'blog/**/*.md' })
-  }
-})
-```
+- Collections:
+  - `content`: all pages (`**`)
+  - `blog`: `blog/**/*.md`
+<!-- Changed because prior config referenced experimental settings not present -->
 
 ## Development Workflow
 
 ### Local Development
 
-1. **Install dependencies**:
-   ```bash
-   npm install
-   ```
+1) Install dependencies
+```bash
+npm install
+```
+2) Start dev server (includes OpenSSL legacy flag)
+```bash
+npm run dev
+```
+3) Visit http://localhost:3000
+4) Content watch is disabled (`content.watch.enabled = false`); restart the dev server after changing Markdown content. <!-- Changed to match content.watch.disabled -->
 
-2. **Start development server**:
-   ```bash
-   npm run dev
-   ```
-
-3. **Visit**: http://localhost:3000
-
-4. **Hot reload**: Content changes in `content/` will auto-reload
-
-### Content Management
-
-- **Pages**: Add `.md` files to `content/` directory
-- **Blog posts**: Add `.md` files to `content/blog/` with front matter
-- **Images**: Place in `public/blog-images/[post-name]/`
-
-### Building for Production
+### Building
 
 ```bash
-# Build static site
-npm run generate
-
-# Preview production build
-npm run preview
-
-# Build for server deployment
-npm run build
+npm run build      # Production build
+npm run generate   # Static site generation
+npm run preview    # Preview the production build
 ```
+
+### Content & Assets
+
+- Pages: `content/*.md`
+- Blog posts: `content/blog/*.md` (with front matter)
+- Images: place under `public/` (blog images are under `public/blog-images/...`)
 
 ## Deployment
 
-### GitHub Pages (Current Setup)
+### GitHub Pages (CI)
 
-- **Branch**: `8003830a`
-- **Base URL**: `/context-window-exceeded/`
-- **Build Command**: `nuxt build --preset github-pages`
-- **Output**: `.output/public`
+- Trigger: push to `main` or manual dispatch (`workflow_dispatch`)
+- Node version: 20
+- Install: `npm ci`
+- Security scan: `snyk/actions/node@master` with `SNYK_TOKEN` secret required <!-- Changed because CI enforces Snyk scan -->
+- Build: `npx --no-install nuxt build --preset github-pages`
+- Artifact: `./.output/public`
+- Deploy: `actions/deploy-pages@v4` to GitHub Pages
+- Base URL must be `/context-window-exceeded/` for Pages
 
-### Manual Deployment
+### Manual/Local Static Export
 
-1. Set `NUXT_APP_BASE_URL=/` in environment
-2. Run `npm run generate`
-3. Deploy `.output/public` directory
+```bash
+NUXT_APP_BASE_URL=/context-window-exceeded/ npm run build -- --preset github-pages
+# or for a root-hosted export
+NUXT_APP_BASE_URL=/ npm run generate
+```
+Deploy the resulting `.output/public` directory to your host.
+<!-- Changed because previous branch name and steps were inaccurate -->
 
 ## Troubleshooting
 
-### Common Issues
+- OpenSSL errors: use `npm run dev` or upgrade to Node 20+. <!-- Changed because this is the validated mitigation -->
+- CI failing on Snyk: ensure `SNYK_TOKEN` secret is present and valid. <!-- Changed because CI includes Snyk -->
+- Base path issues on Pages: set `NUXT_APP_BASE_URL=/context-window-exceeded/` for production builds.
+- Missing content: verify Markdown front matter and placement under `content/` or `content/blog/`.
 
-1. **OpenSSL Errors**:
-   - Use Node.js 20+ or the legacy provider flag
-   - Solution: `npm run dev` (includes flag)
-
-2. **Build Fails on GitHub Pages**:
-   - Check branch name (should be `8003830a`)
-   - Verify `NUXT_APP_BASE_URL` is set in GitHub Pages settings
-
-3. **Content Not Loading**:
-   - Ensure proper front matter in Markdown files
-   - Check file paths in `content.config.ts`
-
-4. **Images Not Displaying**:
-   - Place images in `public/` directory
-   - Use absolute paths from root: `/images/filename.jpg`
-
-### Development Tips
-
-- Use the Nuxt DevTools by enabling in `nuxt.config.ts` if needed
-- Content changes hot-reload automatically
-- Static assets in `public/` are served as-is
-- TypeScript errors will show in development console
-
-## Project Structure
+## Project Structure (trimmed to relevant items)
 
 ```
-context-window-exceeded/
-├── app/                    # Vue components and pages
-│   ├── components/         # Reusable Vue components
-│   ├── layouts/           # Layout components
-│   └── pages/             # Page components
-├── content/               # Markdown content
-│   ├── blog/             # Blog posts
-│   └── *.md              # Static pages
-├── public/               # Static assets
-├── .github/workflows/    # CI/CD configuration
-├── .windsurf/           # IDE configuration
-└── Configuration files:
-    ├── nuxt.config.ts   # Nuxt settings
-    ├── content.config.ts # Content module settings
-    ├── package.json     # Dependencies and scripts
-    └── tsconfig.json    # TypeScript configuration
+app/                   # Vue components/pages/layouts
+content/               # Markdown content (pages + blog)
+public/                # Static assets (incl. blog images)
+.github/workflows/     # CI/CD (deploy.yml)
+nuxt.config.ts         # Nuxt configuration
+content.config.ts      # Nuxt Content collections
+package.json           # Scripts and dependencies
 ```
-
-## Performance Considerations
-
-- Static site generation for optimal performance
-- Lazy loading for images
-- Minimal CSS with custom properties
-- Prerendered routes configured in `nuxt.config.ts`
 
 ## Security Notes
 
-- No server-side processing in production (static site)
-- Environment variables are build-time only
-- No sensitive data should be committed to repository
-- Use `.env.example` for template environment variables
+- Static output; no server-side secrets at runtime
+- Build-time env only; do not commit secrets
+- Snyk scan runs in CI (threshold: high severity)
+
+## Development Reality Check
+
+- Verify app runs: `npm install` → `npm run dev` → open http://localhost:3000 and load homepage/blog. <!-- Changed because required verification steps -->
+- Confirm build artifact: `npm run build -- --preset github-pages` should produce `.output/public`.
+- Confirm version/commit: check `git rev-parse HEAD` locally; GitHub Pages deployments come from CI on `main`.
+- Common failure modes:
+  - Missing `SNYK_TOKEN` in CI causes build failure.
+  - Incorrect `NUXT_APP_BASE_URL` leads to broken asset links on Pages.
+  - Using Node <18 or without legacy OpenSSL flag may break `npm run dev`.
