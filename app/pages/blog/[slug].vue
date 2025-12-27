@@ -21,6 +21,12 @@ interface BlogPost {
 const route = useRoute()
 const baseURL = useRuntimeConfig().app.baseURL
 
+const safeBaseURL = computed(() => {
+  // Ensure consistent base URL to prevent hydration mismatches
+  const base = baseURL || '/'
+  return base.endsWith('/') ? base : `${base}/`
+})
+
 const { data: post, error: postError } = await useAsyncData('blog-post-' + route.params.slug, async () => {
   try {
     return await queryCollection('blog').path(route.path).first()
@@ -57,8 +63,13 @@ const blogPosts = allPosts.value as unknown as BlogPost[]
 
 const formattedDate = computed(() => {
   if (!blogPost || (!blogPost.date && !blogPost.meta?.date)) return ''
-  const postDate = blogPost.date || blogPost.meta?.date
+  let postDate: string | Date | undefined = blogPost.date || blogPost.meta?.date
   if (!postDate) return ''
+  // Normalize Date objects to YYYY-MM-DD (avoid instanceof on union types)
+  if (postDate && typeof postDate !== 'string') {
+    postDate = (postDate as Date).toISOString().split('T')[0]
+  }
+  if (typeof postDate !== 'string') return ''
   const [year, month, day] = postDate.split('-').map(Number)
   if (!year || !month || !day) return ''
   const localDate = new Date(year, month - 1, day)
@@ -69,6 +80,15 @@ const formattedDate = computed(() => {
   })
 })
 
+const publishedDate = computed(() => {
+  let postDate: string | Date | undefined = blogPost?.date || blogPost?.meta?.date
+  if (!postDate) return ''
+  if (typeof postDate !== 'string') {
+    return (postDate as Date).toISOString().split('T')[0]
+  }
+  return postDate
+})
+
 // Sort posts by date in descending order (newest first)
 // Memoized to avoid re-sorting on every computation
 const sortedPosts = computed(() => {
@@ -76,8 +96,13 @@ const sortedPosts = computed(() => {
   // Create a copy only when allPosts changes to avoid unnecessary operations
   const posts = [...blogPosts]
   return posts.sort((a: BlogPost, b: BlogPost) => {
-    const dateA = a.date || a.meta?.date || ''
-    const dateB = b.date || b.meta?.date || ''
+    const normalizeDate = (d: string | Date | undefined): string => {
+      if (!d) return ''
+      if (typeof d === 'string') return d as string
+      return (d.toISOString().split('T')[0] ?? '') as string
+    }
+    const dateA = normalizeDate(a.date || a.meta?.date)
+    const dateB = normalizeDate(b.date || b.meta?.date)
     return dateB.localeCompare(dateA) // Sort newest first (descending)
   })
 })
@@ -113,10 +138,10 @@ useHead({
     { property: 'og:title', content: blogPost?.title || '' },
     { property: 'og:description', content: blogPost?.description || '' },
     { property: 'og:type', content: 'article' },
-    { property: 'article:published_time', content: blogPost?.date || blogPost?.meta?.date || '' },
+    { property: 'article:published_time', content: publishedDate.value },
   ],
   link: [
-    { rel: 'icon', type: 'image/x-icon', href: `${baseURL}favicon.ico` },
+    { rel: 'icon', type: 'image/x-icon', href: `${safeBaseURL.value}favicon.ico` },
   ],
 })
 </script>
@@ -125,19 +150,23 @@ useHead({
   <NuxtLayout :title="blogPost?.title">
     <article class="blog-post">
       <div class="container">
-        <p v-if="formattedDate" class="blog-post__meta-inline">
-          <time :datetime="blogPost?.date || blogPost?.meta?.date">
-            {{ formattedDate }}
-          </time>
-        </p>
+        <div class="blog-post__back-top">
+          <NuxtLink :to="`${safeBaseURL}blog`">← Back to Blog</NuxtLink>
+        </div>
 
         <div v-if="blogPost?.cover" class="blog-post__cover">
           <img 
-            :src="baseURL + blogPost.cover.replace(/^\//, '')" 
+            :src="safeBaseURL + blogPost.cover.replace(/^\//, '')" 
             :alt="blogPost?.title"
             loading="lazy"
           />
         </div>
+
+        <p v-if="formattedDate" class="blog-post__meta-inline">
+          <time :datetime="publishedDate">
+            {{ formattedDate }}
+          </time>
+        </p>
 
         <div class="blog-post__content">
           <ContentRenderer :value="blogPost" />
@@ -153,7 +182,7 @@ useHead({
             </div>
             
             <div class="nav-link nav-link--center">
-              <NuxtLink :to="`${baseURL}blog`">← Back to Blog</NuxtLink>
+              <NuxtLink :to="`${safeBaseURL}blog`">← Back to Blog</NuxtLink>
             </div>
             
             <div v-if="nextPost && nextPost._path" class="nav-link nav-link--next">
@@ -234,6 +263,7 @@ useHead({
 .blog-post__cover img {
   max-width: 100%;
   height: auto;
+  aspect-ratio: 16 / 9;
   border-radius: var(--radius);
   box-shadow: 0 16px 48px var(--shadow);
   border: 1px solid var(--border);
@@ -244,6 +274,16 @@ useHead({
   line-height: 1.7;
   color: var(--fg);
   margin-bottom: var(--space-7);
+}
+
+.blog-post__content :deep(img) {
+  display: block;
+  max-width: 40rem;
+  width: 100%;
+  margin: var(--space-5) auto;
+  border-radius: var(--radius);
+  box-shadow: 0 16px 48px var(--shadow);
+  border: 1px solid var(--border);
 }
 
 .blog-post__content :deep(h1),
@@ -292,25 +332,93 @@ useHead({
 }
 
 .blog-post__content :deep(code) {
-  background: var(--card);
+  background: #1c1f27;
   padding: 0.2rem 0.4rem;
   border-radius: 4px;
   font-family: var(--font-mono);
   font-size: 0.95em;
+  color: #f5f5f5;
+}
+
+.blog-post__content :deep(code[class*="language-"]) {
+  color: #f8fafc;
 }
 
 .blog-post__content :deep(pre) {
-  background: var(--card);
+  background: #14161d;
   padding: var(--space-5);
   border-radius: var(--radius);
   overflow-x: auto;
   margin: var(--space-6) 0;
-  border: 1px solid var(--border);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #f5f5f5;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.03), 0 18px 36px rgba(0, 0, 0, 0.45);
 }
 
 .blog-post__content :deep(pre code) {
   background: none;
   padding: 0;
+  color: inherit;
+  font-family: var(--font-mono);
+  font-size: 0.95em;
+}
+
+.blog-post__content :deep(pre code[class*="language-"]) {
+  color: #f8fafc;
+}
+
+.blog-post__content :deep(.token.comment),
+.blog-post__content :deep(.token.prolog),
+.blog-post__content :deep(.token.doctype),
+.blog-post__content :deep(.token.cdata) {
+  color: #8b949e;
+}
+
+.blog-post__content :deep(.token.punctuation) {
+  color: #c9d1d9;
+}
+
+.blog-post__content :deep(.token.property),
+.blog-post__content :deep(.token.tag),
+.blog-post__content :deep(.token.constant),
+.blog-post__content :deep(.token.symbol) {
+  color: #f6c177;
+}
+
+.blog-post__content :deep(.token.boolean),
+.blog-post__content :deep(.token.number) {
+  color: #9cdcfe;
+}
+
+.blog-post__content :deep(.token.selector),
+.blog-post__content :deep(.token.attr-name),
+.blog-post__content :deep(.token.string),
+.blog-post__content :deep(.token.char),
+.blog-post__content :deep(.token.builtin),
+.blog-post__content :deep(.token.inserted) {
+  color: #7ee787;
+}
+
+.blog-post__content :deep(.token.operator),
+.blog-post__content :deep(.token.entity),
+.blog-post__content :deep(.token.url) {
+  color: #f0a6d3;
+}
+
+.blog-post__content :deep(.token.atrule),
+.blog-post__content :deep(.token.attr-value),
+.blog-post__content :deep(.token.keyword) {
+  color: #7dd3fc;
+}
+
+.blog-post__content :deep(.token.regex),
+.blog-post__content :deep(.token.important),
+.blog-post__content :deep(.token.variable) {
+  color: #f472b6;
+}
+
+.blog-post__content :deep(.token.deleted) {
+  color: #ff7b72;
 }
 
 .blog-post__content :deep(a) {
@@ -321,6 +429,20 @@ useHead({
 
 .blog-post__content :deep(a:hover) {
   text-decoration-thickness: .2em;
+}
+
+.blog-post__back-top {
+  margin-bottom: var(--space-4);
+  font-weight: 600;
+}
+
+.blog-post__back-top a {
+  color: var(--fg);
+  text-decoration: none;
+}
+
+.blog-post__back-top a:hover {
+  text-decoration: underline;
 }
 
 .blog-post__navigation {
