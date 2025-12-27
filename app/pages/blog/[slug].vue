@@ -81,8 +81,13 @@ const sortedPosts = computed(() => {
   // Create a copy only when allPosts changes to avoid unnecessary operations
   const posts = [...blogPosts]
   return posts.sort((a: BlogPost, b: BlogPost) => {
-    const dateA = a.date || a.meta?.date || ''
-    const dateB = b.date || b.meta?.date || ''
+    const normalizeDate = (d: string | Date | undefined): string => {
+      if (!d) return ''
+      if (typeof d === 'string') return d as string
+      return (d.toISOString().split('T')[0] ?? '') as string
+    }
+    const dateA = normalizeDate(a.date || a.meta?.date)
+    const dateB = normalizeDate(b.date || b.meta?.date)
     return dateB.localeCompare(dateA) // Sort newest first (descending)
   })
 })
