@@ -1,16 +1,17 @@
 # DJ Moore - Personal Portfolio
 
-A modern, minimalist portfolio website built with Nuxt 4 and deployed on GitHub Pages. Features a monochrome design with responsive layout and optimized performance.
+A modern, minimalist portfolio website built with Nuxt 4 and deployed on GitHub Pages. Features a monochrome design, integrated security engineering blog, and responsive layout.
 
 ## ✨ Features
 
 - **Modern Tech Stack**: Built with Nuxt 4, Vue 3, and TypeScript
 - **Static Site Generation**: Optimized for GitHub Pages deployment
-- **Content Management**: Powered by Nuxt Content for easy content updates
-- **Responsive Design**: Mobile-first approach with desktop enhancements
+- **Content Management**: Powered by Nuxt Content v3 with Zod schema validation
+- **Blog System**: Full-featured blog with navigation, cover images, and syntax highlighting
 - **GitHub Integration**: Showcases selected GitHub repositories
+- **Responsive Design**: Mobile-first approach with desktop enhancements
+- **Performance**: Lazy loading, optimized assets, and minimal CSS
 - **Accessibility**: WCAG compliant with semantic HTML and ARIA labels
-- **Performance**: Lazy loading, optimized images, and minimal CSS
 
 ## 🚀 Quick Start
 
@@ -54,18 +55,18 @@ Content is managed through Markdown files in the `content/` directory:
 
 ### Blog Post Template
 
-Blog posts use the following front matter structure:
+Blog posts use the following front matter structure (validated via Zod):
 
 ```markdown
 ---
 title: "Your Blog Post Title"
-date: "2024-12-24"
+date: "2024-12-25"
 description: "A brief description of your blog post"
 cover: "/blog-images/your-folder-name/cover.jpg"
 ---
 ```
 
-See `content/blog/my-first-blog-post.md` for a complete template example.
+See `content/blog/2024-12-25-a-prompt-injection-why-llms-cant-tell-the-system-prompt-from-a-user-prompt.md` for a real-world example.
 
 ## 🛠 Development
 
@@ -83,22 +84,28 @@ npm run preview    # Preview production build
 ```
 context-window-exceeded/
 ├── app/
-│   ├── components/         # Vue components
+│   ├── components/        # Vue components
 │   │   └── GithubRepoShowcase.vue
+│   ├── layouts/           # Layout templates
+│   │   └── default.vue
 │   ├── pages/             # Vue pages
 │   │   ├── index.vue      # Homepage
+│   │   ├── blog/          # Blog listing and post pages
 │   │   └── [...slug].vue  # Dynamic content pages
-│   └── app.vue           # Root component
+│   ├── plugins/           # Nuxt plugins (e.g., page-direction)
+│   └── app.vue            # Root component
 ├── content/               # Markdown content
+│   ├── blog/              # Blog post markdown files
 │   ├── index.md
 │   └── about.md
-├── public/               # Static assets
+├── public/                # Static assets
 │   ├── assets/
 │   └── .nojekyll
-├── .github/workflows/    # GitHub Actions
+├── .github/workflows/     # GitHub Actions
 │   └── deploy.yml
-├── nuxt.config.ts       # Nuxt configuration
-└── package.json         # Dependencies
+├── nuxt.config.ts         # Nuxt configuration
+├── content.config.ts      # Content & Zod schema config
+└── package.json           # Dependencies
 ```
 
 ## 🚀 Deployment
