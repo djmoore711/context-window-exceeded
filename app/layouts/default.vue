@@ -39,26 +39,26 @@
   <footer class="site-footer">
     <div class="site-footer__inner">
       <div class="site-footer__brand">
-        <p class="site-footer__name">DJ Moore</p>
+        <p class="site-footer__name">{{ footerName }}</p>
         <p class="site-footer__fineprint muted">© {{ year }} DJ Moore. All rights reserved.</p>
         <p class="site-footer__timezone muted">America/Chicago</p>
       </div>
 
       <div class="site-footer__nav" aria-label="Footer">
-        <a class="cta" href="mailto:owner@darrellmoore.me">Email</a>
         <div class="site-footer__links">
           <a href="https://www.linkedin.com/in/mooredarrell/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
           <a href="https://github.com/djmoore711" target="_blank" rel="noopener noreferrer">GitHub</a>
           <a href="https://github.com/djmoore711/context-window-exceeded" target="_blank" rel="noopener noreferrer">Source</a>
           <a href="#top">Back to Top</a>
         </div>
+        <a class="cta" href="mailto:owner@darrellmoore.me">Email</a>
       </div>
     </div>
   </footer>
 </template>
 
 <script setup lang="ts">
-import { computed, useRuntimeConfig } from '#imports'
+import { computed, useRuntimeConfig, useRoute } from '#imports'
 
 const props = defineProps<{
   kicker?: string
@@ -68,12 +68,15 @@ const props = defineProps<{
 }>()
 
 // Set default values for blog pages
-const kicker = computed(() => props.kicker || 'DJ Moore')
+const kicker = computed(() => props.kicker || 'Security Engineering Blog')
 const title = computed(() => props.title || 'Security Engineering')
 const lede = computed(() => props.lede)
 const showPortrait = computed(() => props.showPortrait ?? false)
 
 const baseURL = useRuntimeConfig().app.baseURL
+const route = useRoute()
+const blogPrefix = `${baseURL}blog`
+const footerName = computed(() => route.path.startsWith(blogPrefix) ? 'Security Engineering Blog' : 'Security Engineering')
 const portraitSrc = `${baseURL}images/portrait.png`
 const signatureSrc = `${baseURL}images/DJ_Moore_signature_transparent_tight.png`
 const year = new Date().getFullYear()
@@ -507,9 +510,10 @@ a:focus-visible{outline:2px solid var(--fg); outline-offset:3px;}
 
 .site-footer__nav{
   display:flex;
-  flex-direction:column;
-  align-items:flex-start;
+  align-items:center;
+  justify-content:space-between;
   gap:var(--space-3);
+  flex-wrap:wrap;
 }
 
 .site-footer__links{
