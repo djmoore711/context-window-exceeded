@@ -57,8 +57,13 @@ const blogPosts = allPosts.value as unknown as BlogPost[]
 
 const formattedDate = computed(() => {
   if (!blogPost || (!blogPost.date && !blogPost.meta?.date)) return ''
-  const postDate = blogPost.date || blogPost.meta?.date
+  let postDate: string | Date | undefined = blogPost.date || blogPost.meta?.date
   if (!postDate) return ''
+  // Normalize Date objects to YYYY-MM-DD (avoid instanceof on union types)
+  if (postDate && typeof postDate !== 'string') {
+    postDate = (postDate as Date).toISOString().split('T')[0]
+  }
+  if (typeof postDate !== 'string') return ''
   const [year, month, day] = postDate.split('-').map(Number)
   if (!year || !month || !day) return ''
   const localDate = new Date(year, month - 1, day)
@@ -125,12 +130,6 @@ useHead({
   <NuxtLayout :title="blogPost?.title">
     <article class="blog-post">
       <div class="container">
-        <p v-if="formattedDate" class="blog-post__meta-inline">
-          <time :datetime="blogPost?.date || blogPost?.meta?.date">
-            {{ formattedDate }}
-          </time>
-        </p>
-
         <div v-if="blogPost?.cover" class="blog-post__cover">
           <img 
             :src="baseURL + blogPost.cover.replace(/^\//, '')" 
@@ -138,6 +137,12 @@ useHead({
             loading="lazy"
           />
         </div>
+
+        <p v-if="formattedDate" class="blog-post__meta-inline">
+          <time :datetime="blogPost?.date || blogPost?.meta?.date">
+            {{ formattedDate }}
+          </time>
+        </p>
 
         <div class="blog-post__content">
           <ContentRenderer :value="blogPost" />
@@ -244,6 +249,16 @@ useHead({
   line-height: 1.7;
   color: var(--fg);
   margin-bottom: var(--space-7);
+}
+
+.blog-post__content :deep(img) {
+  display: block;
+  max-width: 40rem;
+  width: 100%;
+  margin: var(--space-5) auto;
+  border-radius: var(--radius);
+  box-shadow: 0 16px 48px var(--shadow);
+  border: 1px solid var(--border);
 }
 
 .blog-post__content :deep(h1),

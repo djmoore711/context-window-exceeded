@@ -4,9 +4,14 @@ import { queryCollection, useHead, useRuntimeConfig } from '#imports'
 const route = useRoute()
 const baseURL = useRuntimeConfig().app.baseURL
 
+// Ignore asset and build requests to avoid fatal error loops in dev
+if (route.path.startsWith('/assets') || route.path.startsWith('/_nuxt')) {
+  throw createError({ statusCode: 404, statusMessage: 'Not Found', fatal: false })
+}
+
 // Don't interfere with blog routes
 if (route.path.startsWith('/blog')) {
-  throw createError({ statusCode: 404, statusMessage: 'Page not found', fatal: true })
+  throw createError({ statusCode: 404, statusMessage: 'Page not found', fatal: false })
 }
 
 const { data: page } = await useAsyncData('page-' + route.path, async () => {
@@ -17,7 +22,7 @@ const { data: page } = await useAsyncData('page-' + route.path, async () => {
 })
 
 if (!page.value) {
-  throw createError({ statusCode: 404, statusMessage: 'Page not found', fatal: true })
+  throw createError({ statusCode: 404, statusMessage: 'Page not found', fatal: false })
 }
 
 useHead({

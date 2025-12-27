@@ -11,7 +11,6 @@ export default defineNuxtConfig({
   compatibilityDate: '2024-04-03',
   app: {
     baseURL: process.env.NODE_ENV === 'production' ? (process.env.NUXT_APP_BASE_URL || '/') : '/',
-    buildAssetsDir: 'assets', // Helps keeps your build folder clean
     // Global page transition configuration
     pageTransition: { name: 'page', mode: 'default' },
     layoutTransition: { name: 'layout', mode: 'default' }

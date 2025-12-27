@@ -39,7 +39,7 @@
   <footer class="site-footer">
     <div class="site-footer__inner">
       <div class="site-footer__brand">
-        <p class="site-footer__name">DJ Moore</p>
+        <p class="site-footer__name">Security Engineering Blog</p>
         <p class="site-footer__fineprint muted">© {{ year }} DJ Moore. All rights reserved.</p>
         <p class="site-footer__timezone muted">America/Chicago</p>
       </div>
@@ -68,7 +68,7 @@ const props = defineProps<{
 }>()
 
 // Set default values for blog pages
-const kicker = computed(() => props.kicker || 'DJ Moore')
+const kicker = computed(() => props.kicker || 'Security Engineering Blog')
 const title = computed(() => props.title || 'Security Engineering')
 const lede = computed(() => props.lede)
 const showPortrait = computed(() => props.showPortrait ?? false)

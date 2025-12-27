@@ -104,6 +104,11 @@ useHead({
             :key="post._path"
             class="blog-card"
           >
+            <NuxtLink
+              class="blog-card__overlay"
+              :to="post._path"
+              :aria-label="`Open ${post.title}`"
+            />
             <div v-if="post.cover" class="blog-card__image">
               <img 
                 :src="baseURL + post.cover.replace(/^\//, '')" 
@@ -179,6 +184,7 @@ useHead({
   display: flex;
   flex-direction: column;
   height: 100%;
+  position: relative;
 }
 
 .blog-card:hover {
@@ -201,6 +207,21 @@ useHead({
   height: 100%;
   object-fit: cover;
   display: block;
+}
+
+/* Full-card clickable overlay */
+.blog-card__overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  border-radius: inherit;
+}
+
+/* Keep inner links focusable and above overlay */
+.blog-card__title a,
+.blog-card__link {
+  position: relative;
+  z-index: 2;
 }
 
 .blog-card__content {
