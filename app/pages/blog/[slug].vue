@@ -21,6 +21,12 @@ interface BlogPost {
 const route = useRoute()
 const baseURL = useRuntimeConfig().app.baseURL
 
+const safeBaseURL = computed(() => {
+  // Ensure consistent base URL to prevent hydration mismatches
+  const base = baseURL || '/'
+  return base.endsWith('/') ? base : `${base}/`
+})
+
 const { data: post, error: postError } = await useAsyncData('blog-post-' + route.params.slug, async () => {
   try {
     return await queryCollection('blog').path(route.path).first()
@@ -135,7 +141,7 @@ useHead({
     { property: 'article:published_time', content: publishedDate.value },
   ],
   link: [
-    { rel: 'icon', type: 'image/x-icon', href: `${baseURL}favicon.ico` },
+    { rel: 'icon', type: 'image/x-icon', href: `${safeBaseURL.value}favicon.ico` },
   ],
 })
 </script>
@@ -145,12 +151,12 @@ useHead({
     <article class="blog-post">
       <div class="container">
         <div class="blog-post__back-top">
-          <NuxtLink :to="`${baseURL}blog`">← Back to Blog</NuxtLink>
+          <NuxtLink :to="`${safeBaseURL}blog`">← Back to Blog</NuxtLink>
         </div>
 
         <div v-if="blogPost?.cover" class="blog-post__cover">
           <img 
-            :src="baseURL + blogPost.cover.replace(/^\//, '')" 
+            :src="safeBaseURL + blogPost.cover.replace(/^\//, '')" 
             :alt="blogPost?.title"
             loading="lazy"
           />
@@ -176,7 +182,7 @@ useHead({
             </div>
             
             <div class="nav-link nav-link--center">
-              <NuxtLink :to="`${baseURL}blog`">← Back to Blog</NuxtLink>
+              <NuxtLink :to="`${safeBaseURL}blog`">← Back to Blog</NuxtLink>
             </div>
             
             <div v-if="nextPost && nextPost._path" class="nav-link nav-link--next">
@@ -326,25 +332,93 @@ useHead({
 }
 
 .blog-post__content :deep(code) {
-  background: var(--card);
+  background: #1c1f27;
   padding: 0.2rem 0.4rem;
   border-radius: 4px;
   font-family: var(--font-mono);
   font-size: 0.95em;
+  color: #f5f5f5;
+}
+
+.blog-post__content :deep(code[class*="language-"]) {
+  color: #f8fafc;
 }
 
 .blog-post__content :deep(pre) {
-  background: var(--card);
+  background: #14161d;
   padding: var(--space-5);
   border-radius: var(--radius);
   overflow-x: auto;
   margin: var(--space-6) 0;
-  border: 1px solid var(--border);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #f5f5f5;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.03), 0 18px 36px rgba(0, 0, 0, 0.45);
 }
 
 .blog-post__content :deep(pre code) {
   background: none;
   padding: 0;
+  color: inherit;
+  font-family: var(--font-mono);
+  font-size: 0.95em;
+}
+
+.blog-post__content :deep(pre code[class*="language-"]) {
+  color: #f8fafc;
+}
+
+.blog-post__content :deep(.token.comment),
+.blog-post__content :deep(.token.prolog),
+.blog-post__content :deep(.token.doctype),
+.blog-post__content :deep(.token.cdata) {
+  color: #8b949e;
+}
+
+.blog-post__content :deep(.token.punctuation) {
+  color: #c9d1d9;
+}
+
+.blog-post__content :deep(.token.property),
+.blog-post__content :deep(.token.tag),
+.blog-post__content :deep(.token.constant),
+.blog-post__content :deep(.token.symbol) {
+  color: #f6c177;
+}
+
+.blog-post__content :deep(.token.boolean),
+.blog-post__content :deep(.token.number) {
+  color: #9cdcfe;
+}
+
+.blog-post__content :deep(.token.selector),
+.blog-post__content :deep(.token.attr-name),
+.blog-post__content :deep(.token.string),
+.blog-post__content :deep(.token.char),
+.blog-post__content :deep(.token.builtin),
+.blog-post__content :deep(.token.inserted) {
+  color: #7ee787;
+}
+
+.blog-post__content :deep(.token.operator),
+.blog-post__content :deep(.token.entity),
+.blog-post__content :deep(.token.url) {
+  color: #f0a6d3;
+}
+
+.blog-post__content :deep(.token.atrule),
+.blog-post__content :deep(.token.attr-value),
+.blog-post__content :deep(.token.keyword) {
+  color: #7dd3fc;
+}
+
+.blog-post__content :deep(.token.regex),
+.blog-post__content :deep(.token.important),
+.blog-post__content :deep(.token.variable) {
+  color: #f472b6;
+}
+
+.blog-post__content :deep(.token.deleted) {
+  color: #ff7b72;
 }
 
 .blog-post__content :deep(a) {
