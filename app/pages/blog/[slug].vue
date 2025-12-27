@@ -74,6 +74,15 @@ const formattedDate = computed(() => {
   })
 })
 
+const publishedDate = computed(() => {
+  let postDate: string | Date | undefined = blogPost?.date || blogPost?.meta?.date
+  if (!postDate) return ''
+  if (typeof postDate !== 'string') {
+    return (postDate as Date).toISOString().split('T')[0]
+  }
+  return postDate
+})
+
 // Sort posts by date in descending order (newest first)
 // Memoized to avoid re-sorting on every computation
 const sortedPosts = computed(() => {
@@ -123,7 +132,7 @@ useHead({
     { property: 'og:title', content: blogPost?.title || '' },
     { property: 'og:description', content: blogPost?.description || '' },
     { property: 'og:type', content: 'article' },
-    { property: 'article:published_time', content: blogPost?.date || blogPost?.meta?.date || '' },
+    { property: 'article:published_time', content: publishedDate.value },
   ],
   link: [
     { rel: 'icon', type: 'image/x-icon', href: `${baseURL}favicon.ico` },
@@ -135,6 +144,10 @@ useHead({
   <NuxtLayout :title="blogPost?.title">
     <article class="blog-post">
       <div class="container">
+        <div class="blog-post__back-top">
+          <NuxtLink :to="`${baseURL}blog`">← Back to Blog</NuxtLink>
+        </div>
+
         <div v-if="blogPost?.cover" class="blog-post__cover">
           <img 
             :src="baseURL + blogPost.cover.replace(/^\//, '')" 
@@ -144,7 +157,7 @@ useHead({
         </div>
 
         <p v-if="formattedDate" class="blog-post__meta-inline">
-          <time :datetime="blogPost?.date || blogPost?.meta?.date">
+          <time :datetime="publishedDate">
             {{ formattedDate }}
           </time>
         </p>
@@ -244,6 +257,7 @@ useHead({
 .blog-post__cover img {
   max-width: 100%;
   height: auto;
+  aspect-ratio: 16 / 9;
   border-radius: var(--radius);
   box-shadow: 0 16px 48px var(--shadow);
   border: 1px solid var(--border);
@@ -341,6 +355,20 @@ useHead({
 
 .blog-post__content :deep(a:hover) {
   text-decoration-thickness: .2em;
+}
+
+.blog-post__back-top {
+  margin-bottom: var(--space-4);
+  font-weight: 600;
+}
+
+.blog-post__back-top a {
+  color: var(--fg);
+  text-decoration: none;
+}
+
+.blog-post__back-top a:hover {
+  text-decoration: underline;
 }
 
 .blog-post__navigation {
